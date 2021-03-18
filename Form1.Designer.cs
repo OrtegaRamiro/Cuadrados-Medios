@@ -44,6 +44,7 @@ namespace Cuadrados_Medios
             this.txtNumTotal = new System.Windows.Forms.TextBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
@@ -52,7 +53,7 @@ namespace Cuadrados_Medios
             // txtSemilla
             // 
             this.txtSemilla.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSemilla.Location = new System.Drawing.Point(143, 165);
+            this.txtSemilla.Location = new System.Drawing.Point(142, 235);
             this.txtSemilla.Name = "txtSemilla";
             this.txtSemilla.Size = new System.Drawing.Size(110, 38);
             this.txtSemilla.TabIndex = 1;
@@ -63,7 +64,7 @@ namespace Cuadrados_Medios
             // 
             this.lblSemilla.AutoSize = true;
             this.lblSemilla.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSemilla.Location = new System.Drawing.Point(41, 174);
+            this.lblSemilla.Location = new System.Drawing.Point(40, 244);
             this.lblSemilla.Name = "lblSemilla";
             this.lblSemilla.Size = new System.Drawing.Size(82, 25);
             this.lblSemilla.TabIndex = 1;
@@ -72,7 +73,7 @@ namespace Cuadrados_Medios
             // btnGenerar
             // 
             this.btnGenerar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGenerar.Location = new System.Drawing.Point(52, 289);
+            this.btnGenerar.Location = new System.Drawing.Point(121, 356);
             this.btnGenerar.Name = "btnGenerar";
             this.btnGenerar.Size = new System.Drawing.Size(144, 44);
             this.btnGenerar.TabIndex = 2;
@@ -84,7 +85,7 @@ namespace Cuadrados_Medios
             // 
             this.lvResultados.AutoArrange = false;
             this.lvResultados.HideSelection = false;
-            this.lvResultados.Location = new System.Drawing.Point(329, 12);
+            this.lvResultados.Location = new System.Drawing.Point(328, 82);
             this.lvResultados.Name = "lvResultados";
             this.lvResultados.Size = new System.Drawing.Size(406, 515);
             this.lvResultados.TabIndex = 3;
@@ -95,24 +96,28 @@ namespace Cuadrados_Medios
             // chart1
             // 
             this.chart1.BackColor = System.Drawing.Color.Transparent;
+            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.VerticalCenter;
+            this.chart1.BorderlineColor = System.Drawing.Color.Black;
+            this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(741, 12);
+            this.chart1.Location = new System.Drawing.Point(740, 82);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(600, 515);
+            this.chart1.Size = new System.Drawing.Size(590, 515);
             this.chart1.TabIndex = 5;
             this.chart1.Text = "chart1";
+            this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // SvLV
             // 
             this.SvLV.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SvLV.Location = new System.Drawing.Point(375, 571);
+            this.SvLV.Location = new System.Drawing.Point(647, 603);
             this.SvLV.Name = "SvLV";
             this.SvLV.Size = new System.Drawing.Size(162, 41);
             this.SvLV.TabIndex = 4;
@@ -124,7 +129,7 @@ namespace Cuadrados_Medios
             // 
             this.lbTotalNumeros.AutoSize = true;
             this.lbTotalNumeros.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTotalNumeros.Location = new System.Drawing.Point(3, 100);
+            this.lbTotalNumeros.Location = new System.Drawing.Point(2, 170);
             this.lbTotalNumeros.Name = "lbTotalNumeros";
             this.lbTotalNumeros.Size = new System.Drawing.Size(120, 25);
             this.lbTotalNumeros.TabIndex = 5;
@@ -133,7 +138,7 @@ namespace Cuadrados_Medios
             // txtNumTotal
             // 
             this.txtNumTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNumTotal.Location = new System.Drawing.Point(143, 91);
+            this.txtNumTotal.Location = new System.Drawing.Point(142, 161);
             this.txtNumTotal.Name = "txtNumTotal";
             this.txtNumTotal.Size = new System.Drawing.Size(110, 38);
             this.txtNumTotal.TabIndex = 0;
@@ -149,12 +154,23 @@ namespace Cuadrados_Medios
             this.errorProvider2.ContainerControl = this;
             this.errorProvider2.Icon = ((System.Drawing.Icon)(resources.GetObject("errorProvider2.Icon")));
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(577, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(284, 32);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Mínimos Cuadrados";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(1342, 753);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.txtNumTotal);
             this.Controls.Add(this.lbTotalNumeros);
             this.Controls.Add(this.SvLV);
@@ -189,6 +205,7 @@ namespace Cuadrados_Medios
         private System.Windows.Forms.TextBox txtNumTotal;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ErrorProvider errorProvider2;
+        private System.Windows.Forms.Label label1;
     }
 }
 

@@ -26,7 +26,6 @@ namespace Cuadrados_Medios
         {
 
         }
-
         private void btnGenerar_Click(object sender, EventArgs e)
         {
             limpGrafica();
@@ -34,10 +33,13 @@ namespace Cuadrados_Medios
 
             if (ComErroresTB())
             {
+                NoError();
+
                 return;
             }
 
             else {
+                NoError();
 
                 int total = int.Parse(txtNumTotal.Text);
                 string semilla = txtSemilla.Text;
@@ -80,7 +82,6 @@ namespace Cuadrados_Medios
                 }
             }
         }
-
         private string comprobarNum(int num)
         {
             string valorNum = num.ToString();
@@ -145,26 +146,22 @@ namespace Cuadrados_Medios
 
             return valor;
         }
-
         private string cuatroNums(string num)
         {
             string nuevo = num.Substring(2, 4);
             return nuevo;
         }
-
         private string numDecimal(string num)
         {
             string decNum;
             decNum = "0." + num;
             return decNum;
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             genTabla();
             grafica();
         }
-
         private void genTabla()
         {
             lvResultados.View = View.Details;
@@ -172,13 +169,13 @@ namespace Cuadrados_Medios
             lvResultados.FullRowSelect = true;
 
             lvResultados.Columns.Add("#", 70, HorizontalAlignment.Center);
-            lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("Y", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("R", 70, HorizontalAlignment.Center);
         }
         private void grafica()
         {
-            chart1.Titles.Add("Cuadrados Medios");
+            chart1.Titles.Add("Gráfica de dispersión");
 
             chart1.ChartAreas[0].Axes[0].Title = "N";
             chart1.ChartAreas[0].Axes[1].Title = "R";
@@ -198,7 +195,6 @@ namespace Cuadrados_Medios
         {
 
         }
-
         private async void SvLV_Click(object sender, EventArgs e)
         {
             using (SaveFileDialog sfd = new SaveFileDialog() {Filter = "Text Documents | *.txt" })
@@ -248,7 +244,6 @@ namespace Cuadrados_Medios
             }
 
         }
-
         private void txtNumTotal_KeyPress(object sender, KeyPressEventArgs e)
         {
             RestringirChars(e, txtNumTotal);
@@ -257,7 +252,6 @@ namespace Cuadrados_Medios
         {
             RestringirChars(e, txtSemilla);
         }
-
         private void RestringirChars(KeyPressEventArgs e, TextBox nombre) {
             nombre.MaxLength = 4;
 
@@ -288,38 +282,39 @@ namespace Cuadrados_Medios
             {
                 errorProvider1.SetError(txtNumTotal, "Ingrese al menos un numero");
                 errorProvider1.SetError(txtSemilla, "Ingrese al menos un numero");
-                return error1 = true;
+                return true;
             }
             else if(txtNumTotal.Text == string.Empty)
             {
                 errorProvider1.SetError(txtNumTotal, "Ingrese al menos un numero");
-                return error1 = true;
+                return true;
             }
             else if (txtSemilla.Text == string.Empty)
             {
                 errorProvider1.SetError(txtSemilla, "Ingrese al menos un numero");
-                return error1 = true;
+                return true;
             }
-
+            return error1;
+        }
+        private void NoError()
+        {
             if (!(txtNumTotal.Text == string.Empty) && !(txtSemilla.Text == string.Empty))
             {
                 errorProvider2.SetError(txtNumTotal, "Correcto");
                 errorProvider2.SetError(txtSemilla, "Correcto");
-                return error1 = false;
             }
-
-            else if(!(txtSemilla.Text == string.Empty))
+            else if (!(txtSemilla.Text == string.Empty))
             {
                 errorProvider2.SetError(txtSemilla, "Correcto");
-                return error1 = false;
             }
             else if (!(txtNumTotal.Text == string.Empty))
             {
                 errorProvider2.SetError(txtNumTotal, "Correcto");
-                return error1 = false;
             }
+        }
+        private void chart1_Click(object sender, EventArgs e)
+        {
 
-            return error1;
         }
     }
 }
