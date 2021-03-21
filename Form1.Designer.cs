@@ -45,6 +45,10 @@ namespace Cuadrados_Medios
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.label1 = new System.Windows.Forms.Label();
+            this.btnChiCuad = new System.Windows.Forms.Button();
+            this.lvComprobacion = new System.Windows.Forms.ListView();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
@@ -87,7 +91,7 @@ namespace Cuadrados_Medios
             this.lvResultados.HideSelection = false;
             this.lvResultados.Location = new System.Drawing.Point(328, 82);
             this.lvResultados.Name = "lvResultados";
-            this.lvResultados.Size = new System.Drawing.Size(406, 515);
+            this.lvResultados.Size = new System.Drawing.Size(406, 318);
             this.lvResultados.TabIndex = 3;
             this.lvResultados.UseCompatibleStateImageBehavior = false;
             this.lvResultados.View = System.Windows.Forms.View.Details;
@@ -109,7 +113,7 @@ namespace Cuadrados_Medios
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(590, 515);
+            this.chart1.Size = new System.Drawing.Size(590, 554);
             this.chart1.TabIndex = 5;
             this.chart1.Text = "chart1";
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
@@ -117,7 +121,7 @@ namespace Cuadrados_Medios
             // SvLV
             // 
             this.SvLV.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SvLV.Location = new System.Drawing.Point(647, 603);
+            this.SvLV.Location = new System.Drawing.Point(926, 689);
             this.SvLV.Name = "SvLV";
             this.SvLV.Size = new System.Drawing.Size(162, 41);
             this.SvLV.TabIndex = 4;
@@ -164,12 +168,56 @@ namespace Cuadrados_Medios
             this.label1.TabIndex = 6;
             this.label1.Text = "Mínimos Cuadrados";
             // 
+            // btnChiCuad
+            // 
+            this.btnChiCuad.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChiCuad.Location = new System.Drawing.Point(100, 553);
+            this.btnChiCuad.Name = "btnChiCuad";
+            this.btnChiCuad.Size = new System.Drawing.Size(187, 44);
+            this.btnChiCuad.TabIndex = 7;
+            this.btnChiCuad.Text = "Comprobar";
+            this.btnChiCuad.UseVisualStyleBackColor = true;
+            this.btnChiCuad.Click += new System.EventHandler(this.btnChiCuad_Click);
+            // 
+            // lvComprobacion
+            // 
+            this.lvComprobacion.HideSelection = false;
+            this.lvComprobacion.Location = new System.Drawing.Point(328, 450);
+            this.lvComprobacion.Name = "lvComprobacion";
+            this.lvComprobacion.Size = new System.Drawing.Size(406, 318);
+            this.lvComprobacion.TabIndex = 9;
+            this.lvComprobacion.UseCompatibleStateImageBehavior = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(461, 62);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(163, 17);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Generación de Numeros";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(432, 430);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(216, 17);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Comprobación con Chi Cuadrada";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.ClientSize = new System.Drawing.Size(1342, 753);
+            this.ClientSize = new System.Drawing.Size(1342, 953);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lvComprobacion);
+            this.Controls.Add(this.btnChiCuad);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtNumTotal);
             this.Controls.Add(this.lbTotalNumeros);
@@ -202,10 +250,14 @@ namespace Cuadrados_Medios
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Button SvLV;
         private System.Windows.Forms.Label lbTotalNumeros;
-        private System.Windows.Forms.TextBox txtNumTotal;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ErrorProvider errorProvider2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnChiCuad;
+        public System.Windows.Forms.TextBox txtNumTotal;
+        private System.Windows.Forms.ListView lvComprobacion;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
     }
 }
 

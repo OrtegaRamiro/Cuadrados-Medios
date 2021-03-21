@@ -15,7 +15,12 @@ namespace Cuadrados_Medios
 {
     public partial class Form1 : Form
     {
+        int total;
         string[] Resultados = new string[4];
+        string[] TablaChi = new string[4];
+        int[] NumerosContados = new int[10];
+        //float[] GuardarNums = new float [total];
+        List<float> GuardarNums = new List<float>();
 
         public Form1()
         {
@@ -41,7 +46,7 @@ namespace Cuadrados_Medios
             else {
                 NoError();
 
-                int total = int.Parse(txtNumTotal.Text);
+                total = int.Parse(txtNumTotal.Text);
                 string semilla = txtSemilla.Text;
                 string valorCuad = null;
                 string valRecortado = null;
@@ -62,8 +67,8 @@ namespace Cuadrados_Medios
                         Resultados[2] = valRecortado;
                         valDecimal = numDecimal(valRecortado);
                         Resultados[3] = valDecimal;
+                        GuardarNums.Add(float.Parse(valDecimal));
                         chart1.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal));
-
                     }
                     else
                     {
@@ -73,6 +78,8 @@ namespace Cuadrados_Medios
                         Resultados[2] = valRecortado;
                         valDecimal = numDecimal(valRecortado);
                         Resultados[3] = valDecimal;
+                        GuardarNums.Add(float.Parse(valDecimal));
+                        //GuardarNums[i] = float.Parse(valDecimal);
                         chart1.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal));
                     }
 
@@ -157,9 +164,123 @@ namespace Cuadrados_Medios
             decNum = "0." + num;
             return decNum;
         }
+
+        public void ChiCuad()
+        {
+            lvComprobacion.Items.Clear();
+            totalNumIntervalos();
+
+            int n = total;
+            float suma = 0;
+            float resultado;
+
+            float m = (float) Math.Sqrt(n);
+            
+            float e = n / m;
+
+            ListViewItem itm;
+
+            for (int i = 0; i<10; i++)
+            {
+                float operacion = 0;
+
+                TablaChi[0] = (i+1).ToString();
+                TablaChi[1] = NumerosContados[i].ToString();
+                TablaChi[2] = e.ToString();
+
+                operacion = e - NumerosContados[i];             
+                resultado = (float)Math.Pow(operacion, 2) / e;
+                TablaChi[3] = resultado.ToString();
+                
+                suma = suma + resultado;
+
+                itm = new ListViewItem(TablaChi);
+                lvComprobacion.Items.Add(itm);
+            }
+
+
+
+            if (suma < 16.91)
+            {
+                MessageBox.Show("Correcto");
+            }
+            else
+            {
+                MessageBox.Show("Incorrecto");
+            }
+        }
+        public void totalNumIntervalos()
+        {
+            int ceroDiez = 0;
+            int DiezVeinte = 0;
+            int VeinteTreinta = 0;
+            int TreintaCuarenta = 0;
+            int CuarentaCincuenta = 0;
+            int CincuentaSesenta = 0;
+            int SesentaSetenta = 0;
+            int SetentaOchenta = 0;
+            int OchentaNoventa = 0;
+            int NoventaCien = 0;
+
+            for (int i = 0; i < total; i++)
+            {
+                if(GuardarNums[i]>=0 && GuardarNums[i] < 0.10)
+                {
+                    ceroDiez = ceroDiez + 1;
+                }
+                else if (GuardarNums[i] >= 0.10 && GuardarNums[i] < 0.20)
+                {
+                    DiezVeinte = DiezVeinte + 1;
+                }
+                else if (GuardarNums[i] >= 0.20 && GuardarNums[i] < 0.30)
+                {
+                    VeinteTreinta = VeinteTreinta + 1;
+                }
+                else if (GuardarNums[i] >= 0.30 && GuardarNums[i] < 0.40)
+                {
+                    TreintaCuarenta = TreintaCuarenta + 1;
+                }
+                else if (GuardarNums[i] >= 0.40 && GuardarNums[i] < 0.50)
+                {
+                    CuarentaCincuenta = CuarentaCincuenta + 1;
+                }
+                else if (GuardarNums[i] >= 0.50 && GuardarNums[i] < 0.60)
+                {
+                    CincuentaSesenta = CincuentaSesenta + 1;
+                }
+                else if (GuardarNums[i] >= 0.60 && GuardarNums[i] < 0.70)
+                {
+                    SesentaSetenta = SesentaSetenta + 1;
+                }
+                else if (GuardarNums[i] >= 0.70 && GuardarNums[i] < 0.80)
+                {
+                    SetentaOchenta = SetentaOchenta + 1;
+                }
+                else if (GuardarNums[i] >= 0.80 && GuardarNums[i] < 0.90)
+                {
+                    OchentaNoventa = OchentaNoventa + 1;
+                }
+                else if (GuardarNums[i] >= 0.90 && GuardarNums[i] <= 1.00)
+                {
+                    NoventaCien = NoventaCien + 1;
+                }
+            }
+            NumerosContados[0] = ceroDiez;
+            NumerosContados[1] = DiezVeinte;
+            NumerosContados[2] = VeinteTreinta;
+            NumerosContados[3] = TreintaCuarenta;
+            NumerosContados[4] = CuarentaCincuenta;
+            NumerosContados[5] = CincuentaSesenta;
+            NumerosContados[6] = SesentaSetenta;
+            NumerosContados[7] = SetentaOchenta;
+            NumerosContados[8] = OchentaNoventa;
+            NumerosContados[9] = NoventaCien;
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             genTabla();
+            genTablaChiCuadrada();
             grafica();
         }
         private void genTabla()
@@ -172,6 +293,18 @@ namespace Cuadrados_Medios
             lvResultados.Columns.Add("Y", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("R", 70, HorizontalAlignment.Center);
+        }
+        private void genTablaChiCuadrada()
+        {
+            lvComprobacion.View = View.Details;
+            lvComprobacion.GridLines = true;
+            lvComprobacion.FullRowSelect = true;
+
+            lvComprobacion.Columns.Add("#", 70, HorizontalAlignment.Center);
+            lvComprobacion.Columns.Add("Oi", 70, HorizontalAlignment.Center);
+            lvComprobacion.Columns.Add("Ei", 70, HorizontalAlignment.Center);
+            lvComprobacion.Columns.Add("Resultado", 70, HorizontalAlignment.Center);
+
         }
         private void grafica()
         {
@@ -206,6 +339,7 @@ namespace Cuadrados_Medios
                         foreach(ListViewItem item in lvResultados.Items)
                         {
                             await tw.WriteLineAsync(item.SubItems[0].Text + "\t" + item.SubItems[1].Text + "\t" + item.SubItems[2].Text + "\t" + item.SubItems[3].Text);
+                            //await tw.WriteLineAsync(item.SubItems[3].Text);
                         }
                         MessageBox.Show("¡¡Archivo de texto guardado correctamente!!");
                     }
@@ -316,5 +450,22 @@ namespace Cuadrados_Medios
         {
 
         }
+
+        private void btnChiCuad_Click(object sender, EventArgs e)
+        {
+            if(ComErroresTB())
+            {
+                NoError();
+            }
+            else
+            {
+                 ChiCuad();
+            }
+        }
+       /* public float[] pasar(float[] TablaChi)
+        {
+            TablaChi = this.TablaChi;
+            return TablaChi;
+        }*/
     }
 }
