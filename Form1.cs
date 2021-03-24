@@ -37,6 +37,7 @@ namespace Cuadrados_Medios
             lvComprobacion.Items.Clear();
             txtResultado.Text = "";
             txtValSuma.Text = "";
+            GuardarNums.Clear();
 
             if (ComErroresTB())
             {
@@ -171,9 +172,8 @@ namespace Cuadrados_Medios
             totalNumIntervalos();
 
             int n = total;
+            float resultado = 0;
             float suma = 0;
-            float resultado;
-
             float m = (float) Math.Sqrt(n);
             
             float e = n / m;
@@ -184,7 +184,13 @@ namespace Cuadrados_Medios
             {
                 float operacion = 0;
 
-                TablaChi[0] = (i+1).ToString();
+                // TablaChi[0] = (i+1).ToString();
+                if (i == 9)
+                    TablaChi[0] = ("[0." + i + " - 1.00]" );
+                
+                else
+                    TablaChi[0] = ("[0." + i + " - " + "0." + (i + 1).ToString() + "]");
+
                 TablaChi[1] = NumerosContados[i].ToString();
                 TablaChi[2] = e.ToString();
 
@@ -197,21 +203,17 @@ namespace Cuadrados_Medios
                 itm = new ListViewItem(TablaChi);
                 lvComprobacion.Items.Add(itm);
             }
-
-            txtValSuma.Text = suma.ToString();
+            // txtValSuma.Text = ("");
+            string ValordeSuma = suma.ToString();
+            txtValSuma.Text = string.Format(ValordeSuma);
 
             if (suma < 16.91)
             {
-                MessageBox.Show("Correcto");
                 txtResultado.Text = string.Format("El valor de la suma es menor que (Xa,9). El resultado es CORRECTO");
-
             }
             else
             {
-                MessageBox.Show("Incorrecto");
                 txtResultado.Text = "El valor de la suma es mayor que (Xa,9). El resultado es INCORRECTO";
-
-
             }
         }
         public void totalNumIntervalos()
