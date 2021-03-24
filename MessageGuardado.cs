@@ -34,7 +34,7 @@ namespace Cuadrados_Medios
         }
         private void MessageGuardado_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Minimos.Visible = true;
+
         }
 
 

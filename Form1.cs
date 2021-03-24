@@ -203,14 +203,13 @@ namespace Cuadrados_Medios
             if (suma < 16.91)
             {
                 MessageBox.Show("Correcto");
-                // txtResultado.Text = string.Format("El valor de la suma es menor que (Xa,9). El resultado es ", Environment.NewLine, "CORRECTO");
-                txtResultado.Text = string.Format("El valor de la suma es menor que (Xa,9). El resultado es \r\nCORRECTO");
+                txtResultado.Text = string.Format("El valor de la suma es menor que (Xa,9). El resultado es CORRECTO");
 
             }
             else
             {
                 MessageBox.Show("Incorrecto");
-                txtResultado.Text = "El valor de la suma es mayor que (Xa,9). El resultado es \r\nINCORRECTO";
+                txtResultado.Text = "El valor de la suma es mayor que (Xa,9). El resultado es INCORRECTO";
 
 
             }
@@ -288,7 +287,7 @@ namespace Cuadrados_Medios
             genTablaChiCuadrada();
             grafica();
             txtResultado.AutoSize = false;
-            txtResultado.Size = new Size(305, 40);
+            txtResultado.Size = new Size(305, 45);
         }
         private void genTabla()
         {
@@ -358,6 +357,7 @@ namespace Cuadrados_Medios
             {
                 mensaje.Dispose();
             }
+            this.Visible = true;
         }
         private async Task GuardarTablas()
         {

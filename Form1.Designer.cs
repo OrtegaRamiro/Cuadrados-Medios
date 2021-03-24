@@ -226,6 +226,7 @@ namespace Cuadrados_Medios
             // 
             // txtResultado
             // 
+            this.txtResultado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtResultado.Location = new System.Drawing.Point(650, 516);
             this.txtResultado.Multiline = true;
             this.txtResultado.Name = "txtResultado";
@@ -236,35 +237,39 @@ namespace Cuadrados_Medios
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(660, 452);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(653, 443);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 13);
+            this.label5.Size = new System.Drawing.Size(118, 20);
             this.label5.TabIndex = 16;
             this.label5.Text = "Valor de Suma:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(674, 480);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 13);
+            this.label6.Size = new System.Drawing.Size(97, 20);
             this.label6.TabIndex = 17;
             this.label6.Text = "Valor (Xa,9):";
             // 
             // txtValSuma
             // 
-            this.txtValSuma.Location = new System.Drawing.Point(736, 449);
+            this.txtValSuma.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtValSuma.Location = new System.Drawing.Point(777, 440);
             this.txtValSuma.Name = "txtValSuma";
             this.txtValSuma.ReadOnly = true;
-            this.txtValSuma.Size = new System.Drawing.Size(74, 20);
+            this.txtValSuma.Size = new System.Drawing.Size(97, 26);
             this.txtValSuma.TabIndex = 18;
             // 
             // txtValXa
             // 
-            this.txtValXa.Location = new System.Drawing.Point(736, 477);
+            this.txtValXa.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtValXa.Location = new System.Drawing.Point(777, 477);
             this.txtValXa.Name = "txtValXa";
             this.txtValXa.ReadOnly = true;
-            this.txtValXa.Size = new System.Drawing.Size(74, 20);
+            this.txtValXa.Size = new System.Drawing.Size(97, 26);
             this.txtValXa.TabIndex = 19;
             this.txtValXa.Text = "16.9189776";
             // 
