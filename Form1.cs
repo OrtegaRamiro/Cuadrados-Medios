@@ -19,7 +19,6 @@ namespace Cuadrados_Medios
         string[] Resultados = new string[4];
         string[] TablaChi = new string[4];
         int[] NumerosContados = new int[10];
-        //float[] GuardarNums = new float [total];
         List<float> GuardarNums = new List<float>();
 
         public Form1()
@@ -35,6 +34,9 @@ namespace Cuadrados_Medios
         {
             limpGrafica();
             lvResultados.Items.Clear();
+            lvComprobacion.Items.Clear();
+            txtResultado.Text = "";
+            txtValSuma.Text = "";
 
             if (ComErroresTB())
             {
@@ -79,14 +81,13 @@ namespace Cuadrados_Medios
                         valDecimal = numDecimal(valRecortado);
                         Resultados[3] = valDecimal;
                         GuardarNums.Add(float.Parse(valDecimal));
-                        //GuardarNums[i] = float.Parse(valDecimal);
                         chart1.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal));
                     }
 
                     itm = new ListViewItem(Resultados);
                     lvResultados.Items.Add(itm);
-
                 }
+                ChiCuad();
             }
         }
         private string comprobarNum(int num)
@@ -164,7 +165,6 @@ namespace Cuadrados_Medios
             decNum = "0." + num;
             return decNum;
         }
-
         public void ChiCuad()
         {
             lvComprobacion.Items.Clear();
@@ -198,15 +198,21 @@ namespace Cuadrados_Medios
                 lvComprobacion.Items.Add(itm);
             }
 
-
+            txtValSuma.Text = suma.ToString();
 
             if (suma < 16.91)
             {
                 MessageBox.Show("Correcto");
+                // txtResultado.Text = string.Format("El valor de la suma es menor que (Xa,9). El resultado es ", Environment.NewLine, "CORRECTO");
+                txtResultado.Text = string.Format("El valor de la suma es menor que (Xa,9). El resultado es \r\nCORRECTO");
+
             }
             else
             {
                 MessageBox.Show("Incorrecto");
+                txtResultado.Text = "El valor de la suma es mayor que (Xa,9). El resultado es \r\nINCORRECTO";
+
+
             }
         }
         public void totalNumIntervalos()
@@ -276,12 +282,13 @@ namespace Cuadrados_Medios
             NumerosContados[8] = OchentaNoventa;
             NumerosContados[9] = NoventaCien;
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             genTabla();
             genTablaChiCuadrada();
             grafica();
+            txtResultado.AutoSize = false;
+            txtResultado.Size = new Size(305, 40);
         }
         private void genTabla()
         {
@@ -328,22 +335,61 @@ namespace Cuadrados_Medios
         {
 
         }
-        private async void SvLV_Click(object sender, EventArgs e)
+        private void SvLV_Click(object sender, EventArgs e)
         {
-            using (SaveFileDialog sfd = new SaveFileDialog() {Filter = "Text Documents | *.txt" })
+            this.Hide();
+
+            DialogResult respuesta = new DialogResult();
+            Form mensaje = new MessageGuardado();
+            respuesta = mensaje.ShowDialog();
+
+            if (respuesta == DialogResult.OK)
             {
-                if(sfd.ShowDialog() == DialogResult.OK)
+                _ = GuardarTablas();
+                this.Visible = true;
+            }
+            if (respuesta == DialogResult.Yes)
+            {
+                _ = GuardarTablas();
+                GuardarImagen();
+                this.Visible = true;
+            }
+            if (respuesta == DialogResult.Cancel)
+            {
+                mensaje.Dispose();
+            }
+        }
+        private async Task GuardarTablas()
+        {
+
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Text Documents | *.txt" })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     using (TextWriter tw = new StreamWriter(new FileStream(sfd.FileName, FileMode.Create), Encoding.UTF8))
                     {
-                        foreach(ListViewItem item in lvResultados.Items)
+                        await tw.WriteLineAsync("\n\tGENERACIÓN DE NÚMEROS ALEATORIOS\n");
+                        foreach (ListViewItem item in lvResultados.Items)
                         {
                             await tw.WriteLineAsync(item.SubItems[0].Text + "\t" + item.SubItems[1].Text + "\t" + item.SubItems[2].Text + "\t" + item.SubItems[3].Text);
                             //await tw.WriteLineAsync(item.SubItems[3].Text);
                         }
+
+                        await tw.WriteLineAsync("\n\tCOMPROBACIÓN CON CHI CUADRADA\n");
+
+                        foreach (ListViewItem item2 in lvComprobacion.Items)
+                        {
+                            await tw.WriteLineAsync(item2.SubItems[0].Text + "\t" + item2.SubItems[1].Text + "\t" + item2.SubItems[2].Text);
+                        }
                         MessageBox.Show("¡¡Archivo de texto guardado correctamente!!");
                     }
                 }
+            }
+            }
+        private void GuardarImagen()
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Text Documents | *.txt" })
+            {
 
                 using (SaveFileDialog sfdIMG = new SaveFileDialog())
                 {
@@ -352,7 +398,7 @@ namespace Cuadrados_Medios
                     sfdIMG.FileName = "Sample.png";
 
 
-                    if(sfdIMG.ShowDialog() == DialogResult.OK && sfdIMG.FileName != "")
+                    if (sfdIMG.ShowDialog() == DialogResult.OK && sfdIMG.FileName != "")
                     {
                         try
                         {
@@ -369,14 +415,13 @@ namespace Cuadrados_Medios
                                 MessageBox.Show("Dirección no valida");
                             }
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message);
                         }
                     }
                 }
             }
-
         }
         private void txtNumTotal_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -451,21 +496,9 @@ namespace Cuadrados_Medios
 
         }
 
-        private void btnChiCuad_Click(object sender, EventArgs e)
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(ComErroresTB())
-            {
-                NoError();
-            }
-            else
-            {
-                 ChiCuad();
-            }
+            Application.Exit();
         }
-       /* public float[] pasar(float[] TablaChi)
-        {
-            TablaChi = this.TablaChi;
-            return TablaChi;
-        }*/
     }
 }

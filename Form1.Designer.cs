@@ -31,7 +31,6 @@ namespace Cuadrados_Medios
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.txtSemilla = new System.Windows.Forms.TextBox();
@@ -39,16 +38,21 @@ namespace Cuadrados_Medios
             this.btnGenerar = new System.Windows.Forms.Button();
             this.lvResultados = new System.Windows.Forms.ListView();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.SvLV = new System.Windows.Forms.Button();
             this.lbTotalNumeros = new System.Windows.Forms.Label();
             this.txtNumTotal = new System.Windows.Forms.TextBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.btnChiCuad = new System.Windows.Forms.Button();
             this.lvComprobacion = new System.Windows.Forms.ListView();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.SvLV = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtResultado = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtValSuma = new System.Windows.Forms.TextBox();
+            this.txtValXa = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
@@ -57,9 +61,10 @@ namespace Cuadrados_Medios
             // txtSemilla
             // 
             this.txtSemilla.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSemilla.Location = new System.Drawing.Point(142, 235);
+            this.txtSemilla.Location = new System.Drawing.Point(106, 191);
+            this.txtSemilla.Margin = new System.Windows.Forms.Padding(2);
             this.txtSemilla.Name = "txtSemilla";
-            this.txtSemilla.Size = new System.Drawing.Size(110, 38);
+            this.txtSemilla.Size = new System.Drawing.Size(84, 32);
             this.txtSemilla.TabIndex = 1;
             this.txtSemilla.TextChanged += new System.EventHandler(this.txtSemilla_TextChanged);
             this.txtSemilla.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSemilla_KeyPress);
@@ -68,18 +73,20 @@ namespace Cuadrados_Medios
             // 
             this.lblSemilla.AutoSize = true;
             this.lblSemilla.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSemilla.Location = new System.Drawing.Point(40, 244);
+            this.lblSemilla.Location = new System.Drawing.Point(30, 198);
+            this.lblSemilla.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSemilla.Name = "lblSemilla";
-            this.lblSemilla.Size = new System.Drawing.Size(82, 25);
+            this.lblSemilla.Size = new System.Drawing.Size(64, 20);
             this.lblSemilla.TabIndex = 1;
             this.lblSemilla.Text = "Semilla:";
             // 
             // btnGenerar
             // 
             this.btnGenerar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGenerar.Location = new System.Drawing.Point(121, 356);
+            this.btnGenerar.Location = new System.Drawing.Point(91, 289);
+            this.btnGenerar.Margin = new System.Windows.Forms.Padding(2);
             this.btnGenerar.Name = "btnGenerar";
-            this.btnGenerar.Size = new System.Drawing.Size(144, 44);
+            this.btnGenerar.Size = new System.Drawing.Size(108, 36);
             this.btnGenerar.TabIndex = 2;
             this.btnGenerar.Text = "Generar";
             this.btnGenerar.UseVisualStyleBackColor = true;
@@ -89,9 +96,10 @@ namespace Cuadrados_Medios
             // 
             this.lvResultados.AutoArrange = false;
             this.lvResultados.HideSelection = false;
-            this.lvResultados.Location = new System.Drawing.Point(328, 82);
+            this.lvResultados.Location = new System.Drawing.Point(246, 67);
+            this.lvResultados.Margin = new System.Windows.Forms.Padding(2);
             this.lvResultados.Name = "lvResultados";
-            this.lvResultados.Size = new System.Drawing.Size(406, 318);
+            this.lvResultados.Size = new System.Drawing.Size(306, 322);
             this.lvResultados.TabIndex = 3;
             this.lvResultados.UseCompatibleStateImageBehavior = false;
             this.lvResultados.View = System.Windows.Forms.View.Details;
@@ -105,46 +113,35 @@ namespace Cuadrados_Medios
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(740, 82);
+            this.chart1.Location = new System.Drawing.Point(555, 67);
+            this.chart1.Margin = new System.Windows.Forms.Padding(2);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(590, 554);
+            this.chart1.Size = new System.Drawing.Size(442, 322);
             this.chart1.TabIndex = 5;
             this.chart1.Text = "chart1";
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
-            // 
-            // SvLV
-            // 
-            this.SvLV.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SvLV.Location = new System.Drawing.Point(926, 689);
-            this.SvLV.Name = "SvLV";
-            this.SvLV.Size = new System.Drawing.Size(162, 41);
-            this.SvLV.TabIndex = 4;
-            this.SvLV.Text = "Guardar";
-            this.SvLV.UseVisualStyleBackColor = true;
-            this.SvLV.Click += new System.EventHandler(this.SvLV_Click);
             // 
             // lbTotalNumeros
             // 
             this.lbTotalNumeros.AutoSize = true;
             this.lbTotalNumeros.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTotalNumeros.Location = new System.Drawing.Point(2, 170);
+            this.lbTotalNumeros.Location = new System.Drawing.Point(2, 138);
+            this.lbTotalNumeros.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbTotalNumeros.Name = "lbTotalNumeros";
-            this.lbTotalNumeros.Size = new System.Drawing.Size(120, 25);
+            this.lbTotalNumeros.Size = new System.Drawing.Size(94, 20);
             this.lbTotalNumeros.TabIndex = 5;
             this.lbTotalNumeros.Text = "T. Numeros:";
             // 
             // txtNumTotal
             // 
             this.txtNumTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNumTotal.Location = new System.Drawing.Point(142, 161);
+            this.txtNumTotal.Location = new System.Drawing.Point(106, 131);
+            this.txtNumTotal.Margin = new System.Windows.Forms.Padding(2);
             this.txtNumTotal.Name = "txtNumTotal";
-            this.txtNumTotal.Size = new System.Drawing.Size(110, 38);
+            this.txtNumTotal.Size = new System.Drawing.Size(84, 32);
             this.txtNumTotal.TabIndex = 0;
             this.txtNumTotal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumTotal_KeyPress);
             // 
@@ -161,39 +158,32 @@ namespace Cuadrados_Medios
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(577, 9);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 17.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(433, 7);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(284, 32);
+            this.label1.Size = new System.Drawing.Size(245, 29);
             this.label1.TabIndex = 6;
             this.label1.Text = "Mínimos Cuadrados";
-            // 
-            // btnChiCuad
-            // 
-            this.btnChiCuad.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChiCuad.Location = new System.Drawing.Point(100, 553);
-            this.btnChiCuad.Name = "btnChiCuad";
-            this.btnChiCuad.Size = new System.Drawing.Size(187, 44);
-            this.btnChiCuad.TabIndex = 7;
-            this.btnChiCuad.Text = "Comprobar";
-            this.btnChiCuad.UseVisualStyleBackColor = true;
-            this.btnChiCuad.Click += new System.EventHandler(this.btnChiCuad_Click);
             // 
             // lvComprobacion
             // 
             this.lvComprobacion.HideSelection = false;
-            this.lvComprobacion.Location = new System.Drawing.Point(328, 450);
+            this.lvComprobacion.Location = new System.Drawing.Point(246, 430);
+            this.lvComprobacion.Margin = new System.Windows.Forms.Padding(2);
             this.lvComprobacion.Name = "lvComprobacion";
-            this.lvComprobacion.Size = new System.Drawing.Size(406, 318);
+            this.lvComprobacion.Size = new System.Drawing.Size(306, 259);
             this.lvComprobacion.TabIndex = 9;
             this.lvComprobacion.UseCompatibleStateImageBehavior = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(461, 62);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(296, 45);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(163, 17);
+            this.label2.Size = new System.Drawing.Size(203, 20);
             this.label2.TabIndex = 10;
             this.label2.Text = "Generación de Numeros";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -201,23 +191,98 @@ namespace Cuadrados_Medios
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(432, 430);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(268, 408);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(216, 17);
+            this.label3.Size = new System.Drawing.Size(272, 20);
             this.label3.TabIndex = 11;
             this.label3.Text = "Comprobación con Chi Cuadrada";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // SvLV
+            // 
+            this.SvLV.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SvLV.Location = new System.Drawing.Point(450, 730);
+            this.SvLV.Margin = new System.Windows.Forms.Padding(2);
+            this.SvLV.Name = "SvLV";
+            this.SvLV.Size = new System.Drawing.Size(122, 33);
+            this.SvLV.TabIndex = 4;
+            this.SvLV.Text = "Guardar";
+            this.SvLV.UseVisualStyleBackColor = true;
+            this.SvLV.Click += new System.EventHandler(this.SvLV_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(684, 408);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(233, 20);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Resultado de comprobación";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtResultado
+            // 
+            this.txtResultado.Location = new System.Drawing.Point(650, 516);
+            this.txtResultado.Multiline = true;
+            this.txtResultado.Name = "txtResultado";
+            this.txtResultado.ReadOnly = true;
+            this.txtResultado.Size = new System.Drawing.Size(305, 40);
+            this.txtResultado.TabIndex = 15;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(660, 452);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(79, 13);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "Valor de Suma:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(674, 480);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Valor (Xa,9):";
+            // 
+            // txtValSuma
+            // 
+            this.txtValSuma.Location = new System.Drawing.Point(736, 449);
+            this.txtValSuma.Name = "txtValSuma";
+            this.txtValSuma.ReadOnly = true;
+            this.txtValSuma.Size = new System.Drawing.Size(74, 20);
+            this.txtValSuma.TabIndex = 18;
+            // 
+            // txtValXa
+            // 
+            this.txtValXa.Location = new System.Drawing.Point(736, 477);
+            this.txtValXa.Name = "txtValXa";
+            this.txtValXa.ReadOnly = true;
+            this.txtValXa.Size = new System.Drawing.Size(74, 20);
+            this.txtValXa.TabIndex = 19;
+            this.txtValXa.Text = "16.9189776";
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.ClientSize = new System.Drawing.Size(1342, 953);
+            this.ClientSize = new System.Drawing.Size(1006, 774);
+            this.Controls.Add(this.txtValXa);
+            this.Controls.Add(this.txtValSuma);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtResultado);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lvComprobacion);
-            this.Controls.Add(this.btnChiCuad);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtNumTotal);
             this.Controls.Add(this.lbTotalNumeros);
@@ -229,9 +294,11 @@ namespace Cuadrados_Medios
             this.Controls.Add(this.txtSemilla);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mínimos cuadrados";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
@@ -248,16 +315,21 @@ namespace Cuadrados_Medios
         private System.Windows.Forms.Button btnGenerar;
         private System.Windows.Forms.ListView lvResultados;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.Button SvLV;
         private System.Windows.Forms.Label lbTotalNumeros;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ErrorProvider errorProvider2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnChiCuad;
         public System.Windows.Forms.TextBox txtNumTotal;
         private System.Windows.Forms.ListView lvComprobacion;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button SvLV;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtResultado;
+        private System.Windows.Forms.TextBox txtValXa;
+        private System.Windows.Forms.TextBox txtValSuma;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
     }
 }
 
