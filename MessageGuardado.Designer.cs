@@ -44,7 +44,7 @@ namespace Cuadrados_Medios
             // btnTablas
             // 
             this.btnTablas.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTablas.Location = new System.Drawing.Point(198, 65);
+            this.btnTablas.Location = new System.Drawing.Point(191, 57);
             this.btnTablas.Name = "btnTablas";
             this.btnTablas.Size = new System.Drawing.Size(100, 60);
             this.btnTablas.TabIndex = 0;
@@ -55,9 +55,9 @@ namespace Cuadrados_Medios
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(26, 30);
+            this.pictureBox1.Location = new System.Drawing.Point(21, 30);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(105, 95);
+            this.pictureBox1.Size = new System.Drawing.Size(101, 95);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
@@ -66,7 +66,7 @@ namespace Cuadrados_Medios
             // 
             this.lblGuardado.AutoSize = true;
             this.lblGuardado.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGuardado.Location = new System.Drawing.Point(213, 30);
+            this.lblGuardado.Location = new System.Drawing.Point(210, 30);
             this.lblGuardado.Name = "lblGuardado";
             this.lblGuardado.Size = new System.Drawing.Size(194, 24);
             this.lblGuardado.TabIndex = 5;
@@ -75,7 +75,7 @@ namespace Cuadrados_Medios
             // brtnGuardarTodo
             // 
             this.brtnGuardarTodo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.brtnGuardarTodo.Location = new System.Drawing.Point(304, 65);
+            this.brtnGuardarTodo.Location = new System.Drawing.Point(314, 57);
             this.brtnGuardarTodo.Name = "brtnGuardarTodo";
             this.brtnGuardarTodo.Size = new System.Drawing.Size(100, 60);
             this.brtnGuardarTodo.TabIndex = 7;
@@ -96,7 +96,7 @@ namespace Cuadrados_Medios
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.panel1.BackColor = System.Drawing.SystemColors.Desktop;
             this.panel1.Controls.Add(this.btnSalir);
             this.panel1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.panel1.Location = new System.Drawing.Point(-1, 1);
