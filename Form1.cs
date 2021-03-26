@@ -347,20 +347,19 @@ namespace Cuadrados_Medios
             if (respuesta == DialogResult.OK)
             {
                 _ = GuardarTablas();
-                this.Visible = true;
             }
-            if (respuesta == DialogResult.Yes)
+            else if (respuesta == DialogResult.Yes)
             {
                 _ = GuardarTablas();
                 GuardarImagen();
-                this.Visible = true;
             }
-            if (respuesta == DialogResult.Cancel)
+            else if (respuesta == DialogResult.Cancel)
             {
                 mensaje.Dispose();
             }
-            this.Visible = true;
+            this.Show();
         }
+
         private async Task GuardarTablas()
         {
 
@@ -371,23 +370,27 @@ namespace Cuadrados_Medios
                     using (TextWriter tw = new StreamWriter(new FileStream(sfd.FileName, FileMode.Create), Encoding.UTF8))
                     {
                         await tw.WriteLineAsync("\n\tGENERACIÓN DE NÚMEROS ALEATORIOS\n");
+                        await tw.WriteLineAsync(string.Format("#\t   Y\t\t  X\t   R"));
                         foreach (ListViewItem item in lvResultados.Items)
                         {
                             await tw.WriteLineAsync(item.SubItems[0].Text + "\t" + item.SubItems[1].Text + "\t" + item.SubItems[2].Text + "\t" + item.SubItems[3].Text);
-                            //await tw.WriteLineAsync(item.SubItems[3].Text);
                         }
 
                         await tw.WriteLineAsync("\n\tCOMPROBACIÓN CON CHI CUADRADA\n");
-
+                        await tw.WriteLineAsync(string.Format("#\t        Oi\t   Ei\t       Resultado"));
                         foreach (ListViewItem item2 in lvComprobacion.Items)
                         {
-                            await tw.WriteLineAsync(item2.SubItems[0].Text + "\t" + item2.SubItems[1].Text + "\t" + item2.SubItems[2].Text);
+                            await tw.WriteLineAsync(item2.SubItems[0].Text + "\t" + item2.SubItems[1].Text + "\t" + item2.SubItems[2].Text + "\t" +item2.SubItems[3].Text);
                         }
+
+                        tw.WriteLine(string.Format("\nValor de la suma: " + txtValSuma.Text+"\t\tValor de Xa,9: "+txtValXa.Text+"\n"+txtResultado.Text));
+
                         MessageBox.Show("¡¡Archivo de texto guardado correctamente!!");
                     }
                 }
             }
-            }
+        }
+
         private void GuardarImagen()
         {
             using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Text Documents | *.txt" })
@@ -504,6 +507,11 @@ namespace Cuadrados_Medios
         }
 
         private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnComprobar_Click(object sender, EventArgs e)
         {
 
         }
