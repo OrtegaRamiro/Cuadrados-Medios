@@ -111,9 +111,9 @@ namespace Cuadrados_Medios
             this.label1.Location = new System.Drawing.Point(323, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(346, 76);
+            this.label1.Size = new System.Drawing.Size(331, 76);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Mínimos Cuadrados";
+            this.label1.Text = "Cuadrados Medios";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lvComprobacion
