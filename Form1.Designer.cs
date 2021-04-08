@@ -54,6 +54,7 @@ namespace Cuadrados_Medios
             this.txtSemilla = new System.Windows.Forms.TextBox();
             this.btnGenerar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.btnReiniciar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
@@ -298,12 +299,27 @@ namespace Cuadrados_Medios
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
+            // btnReiniciar
+            // 
+            this.btnReiniciar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnReiniciar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReiniciar.ForeColor = System.Drawing.Color.White;
+            this.btnReiniciar.Location = new System.Drawing.Point(94, 338);
+            this.btnReiniciar.Margin = new System.Windows.Forms.Padding(2);
+            this.btnReiniciar.Name = "btnReiniciar";
+            this.btnReiniciar.Size = new System.Drawing.Size(130, 40);
+            this.btnReiniciar.TabIndex = 3;
+            this.btnReiniciar.Text = "Reiniciar";
+            this.btnReiniciar.UseVisualStyleBackColor = false;
+            this.btnReiniciar.Click += new System.EventHandler(this.btnReiniciar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(1006, 783);
+            this.Controls.Add(this.btnReiniciar);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnGenerar);
             this.Controls.Add(this.panel1);
@@ -362,6 +378,7 @@ namespace Cuadrados_Medios
         public System.Windows.Forms.TextBox txtNumTotal;
         private System.Windows.Forms.Button SvLV;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnReiniciar;
     }
 }
 

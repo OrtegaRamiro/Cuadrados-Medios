@@ -515,5 +515,10 @@ namespace Cuadrados_Medios
         {
 
         }
+
+        private void btnReiniciar_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
     }
 }
