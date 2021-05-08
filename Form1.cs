@@ -17,15 +17,23 @@ namespace Cuadrados_Medios
     public partial class Form1 : Form
     {
         int total;
-        string[] Resultados = new string[7];
+        string[] Resultados = new string[13];
         string[] TablaChi = new string[4];
+        string[] TablaChiCarta1 = new string[4];
+        string[] TablaChiColor2 = new string[4];
+        string[] TablaChiCarta2 = new string[4];
         int[] NumerosContados = new int[10];
         List<float> GuardarNums = new List<float>();
         List<float> GuardarNumsCarta = new List<float>();
         List<float> COLORES = new List<float>();
+        List<float> GuardarColores2 = new List<float>();
+        List<float> GuardarCarta2 = new List<float>();
+
         float[] colores;
         float[] numCartas;
 
+        bool sinCartasJug1 = false;
+        bool sinCartasJug2 = false;
         public Form1()
         {
             InitializeComponent();
@@ -39,11 +47,21 @@ namespace Cuadrados_Medios
         {
             limpGrafica();
             lvResultados.Items.Clear();
+            lvComprobacionCarta1.Items.Clear();
             lvComprobacion.Items.Clear();
+            lvComprobacionColor2.Items.Clear();
+            lvComprobacionCarta2.Items.Clear();
             txtResultado.Text = "";
             txtValSuma.Text = "";
+            txtValCarta1.Text = "";
+            txtColor2.Text = "";
+            txtComCarta2.Text = "";
             GuardarNums.Clear();
             GuardarNumsCarta.Clear();
+            GuardarColores2.Clear();
+            GuardarCarta2.Clear();
+            sinCartasJug1 = false;
+            sinCartasJug2 = false;
 
             if (ComErroresTB())
             {
@@ -63,6 +81,9 @@ namespace Cuadrados_Medios
             total = int.Parse(txtNumTotal.Text);
             string semilla = txtSemilla.Text;
             string semillaCarta = txtCartaSemilla.Text;
+            string semillaColor2 = txtSemCol2.Text;
+            string semillaCarta2 = txtSemCarta2.Text;
+
             string valorCuad = null;
             string valRecortado = null;
             string valDecimal;
@@ -71,6 +92,15 @@ namespace Cuadrados_Medios
             string valRecortado2 = null;
             string valDecimal2;
 
+            /*Color 2*/
+            string valorCuad3 = null;
+            string valRecortado3 = null;
+            string valDecimal3;
+
+            /*Carta 2*/
+            string valorCuad4 = null;
+            string valRecortado4 = null;
+            string valDecimal4;
             // Tuple<String, String> t;
 
             ListViewItem itm;
@@ -97,7 +127,27 @@ namespace Cuadrados_Medios
                     Resultados[6] = valDecimal2;
                     GuardarNumsCarta.Add(float.Parse(valDecimal2));
 
+                    valorCuad3 = elevarCuad(semillaColor2);
+                    Resultados[7] = valorCuad3;
+                    valRecortado3 = cuatroNums(valorCuad3);
+                    Resultados[8] = valRecortado3;
+                    valDecimal3 = numDecimal(valRecortado3);
+                    Resultados[9] = valDecimal3;
+                    GuardarColores2.Add(float.Parse(valDecimal3));
+
+                    valorCuad4 = elevarCuad(semillaCarta2);
+                    Resultados[10] = valorCuad4;
+                    valRecortado4 = cuatroNums(valorCuad4);
+                    Resultados[11] = valRecortado4;
+                    valDecimal4 = numDecimal(valRecortado4);
+                    Resultados[12] = valDecimal4;
+                    GuardarCarta2.Add(float.Parse(valDecimal4));
+
+
                     chart1.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal));
+                    chartCarta1.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal2));
+                    chartColor2.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal3));
+                    chartCarta2.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal4));
                 }
                 else
                 {
@@ -117,13 +167,35 @@ namespace Cuadrados_Medios
                     Resultados[6] = valDecimal2;
                     GuardarNumsCarta.Add(float.Parse(valDecimal2));
 
+                    valorCuad3 = elevarCuad(valRecortado3);
+                    Resultados[7] = valorCuad3;
+                    valRecortado3 = cuatroNums(valorCuad3);
+                    Resultados[8] = valRecortado3;
+                    valDecimal3 = numDecimal(valRecortado3);
+                    Resultados[9] = valDecimal3;
+                    GuardarColores2.Add(float.Parse(valDecimal3));
+
+                    valorCuad4 = elevarCuad(valRecortado4);
+                    Resultados[10] = valorCuad4;
+                    valRecortado4 = cuatroNums(valorCuad4);
+                    Resultados[11] = valRecortado4;
+                    valDecimal4 = numDecimal(valRecortado4);
+                    Resultados[12] = valDecimal4;
+                    GuardarCarta2.Add(float.Parse(valDecimal4));
+
                     chart1.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal));
+                    chartCarta1.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal2));
+                    chartColor2.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal3));
+                    chartCarta2.Series[0].Points.Add(new DataPoint(Convert.ToDouble(i), valDecimal4));
                 }
 
                 itm = new ListViewItem(Resultados);
                 lvResultados.Items.Add(itm);
             }
             ChiCuad();
+            ChiCuadCarta(lvComprobacionCarta1, TablaChiCarta1, txtValCarta1, GuardarNumsCarta);
+            ChiCuadCarta(lvComprobacionColor2, TablaChiColor2, txtColor2, GuardarColores2);
+            ChiCuadCarta(lvComprobacionCarta2, TablaChiCarta2, txtComCarta2, GuardarCarta2);
         }
 
 
@@ -202,6 +274,58 @@ namespace Cuadrados_Medios
             decNum = "0." + num;
             return decNum;
         }
+        public void ChiCuadCarta(ListView lv, string[] Carta, TextBox txt, List<float> NumCarColor)
+        {
+            lv.Items.Clear();
+            
+
+            int n = total;
+            int[] numerosContados = new int[10];
+            float resultado = 0;
+            float suma = 0;
+            float m = (float)Math.Sqrt(n);
+
+            float e = n / m;
+            totalNumIntervalosFunc(NumCarColor, numerosContados);
+            ListViewItem itm;
+
+            for (int i = 0; i < 10; i++)
+            {
+                float operacion = 0;
+
+                // TablaChi[0] = (i+1).ToString();
+                if (i == 9)
+                    Carta[0] = ("[0." + i + " - 1.00]");
+
+                else
+                    Carta[0] = ("[0." + i + " - " + "0." + (i + 1).ToString() + "]");
+
+                Carta[1] = numerosContados[i].ToString();
+                Carta[2] = e.ToString();
+
+                operacion = e - numerosContados[i];
+                resultado = (float)Math.Pow(operacion, 2) / e;
+                Carta[3] = resultado.ToString();
+
+                suma = suma + resultado;
+
+                itm = new ListViewItem(Carta);
+                lv.Items.Add(itm);
+            }
+            // txtValSuma.Text = ("");
+            string ValordeSuma = suma.ToString();
+            txt.Text = string.Format(ValordeSuma);
+
+        /*    if (suma < 16.91)
+            {
+                txtResultado.Text = string.Format("El valor de la suma es menor que (Xa,9). El resultado es CORRECTO");
+            }
+            else
+            {
+                txtResultado.Text = "El valor de la suma es mayor que (Xa,9). El resultado es INCORRECTO";
+            }*/
+        }
+
         public void ChiCuad()
         {
             lvComprobacion.Items.Clear();
@@ -251,6 +375,73 @@ namespace Cuadrados_Medios
             {
                 txtResultado.Text = "El valor de la suma es mayor que (Xa,9). El resultado es INCORRECTO";
             }
+        }
+        public void totalNumIntervalosFunc(List<float> GuardarNumeros, int[] contarNumeros)
+        {
+            int ceroDiez = 0;
+            int DiezVeinte = 0;
+            int VeinteTreinta = 0;
+            int TreintaCuarenta = 0;
+            int CuarentaCincuenta = 0;
+            int CincuentaSesenta = 0;
+            int SesentaSetenta = 0;
+            int SetentaOchenta = 0;
+            int OchentaNoventa = 0;
+            int NoventaCien = 0;
+
+            for (int i = 0; i < total; i++)
+            {
+                if (GuardarNumeros[i] >= 0 && GuardarNumeros[i] < 0.10)
+                {
+                    ceroDiez = ceroDiez + 1;
+                }
+                else if (GuardarNumeros[i] >= 0.10 && GuardarNumeros[i] < 0.20)
+                {
+                    DiezVeinte = DiezVeinte + 1;
+                }
+                else if (GuardarNumeros[i] >= 0.20 && GuardarNumeros[i] < 0.30)
+                {
+                    VeinteTreinta = VeinteTreinta + 1;
+                }
+                else if (GuardarNumeros[i] >= 0.30 && GuardarNumeros[i] < 0.40)
+                {
+                    TreintaCuarenta = TreintaCuarenta + 1;
+                }
+                else if (GuardarNumeros[i] >= 0.40 && GuardarNumeros[i] < 0.50)
+                {
+                    CuarentaCincuenta = CuarentaCincuenta + 1;
+                }
+                else if (GuardarNumeros[i] >= 0.50 && GuardarNumeros[i] < 0.60)
+                {
+                    CincuentaSesenta = CincuentaSesenta + 1;
+                }
+                else if (GuardarNumeros[i] >= 0.60 && GuardarNumeros[i] < 0.70)
+                {
+                    SesentaSetenta = SesentaSetenta + 1;
+                }
+                else if (GuardarNumeros[i] >= 0.70 && GuardarNumeros[i] < 0.80)
+                {
+                    SetentaOchenta = SetentaOchenta + 1;
+                }
+                else if (GuardarNumeros[i] >= 0.80 && GuardarNumeros[i] < 0.90)
+                {
+                    OchentaNoventa = OchentaNoventa + 1;
+                }
+                else if (GuardarNumeros[i] >= 0.90 && GuardarNumeros[i] <= 1.00)
+                {
+                    NoventaCien = NoventaCien + 1;
+                }
+            }
+            contarNumeros[0] = ceroDiez;
+            contarNumeros[1] = DiezVeinte;
+            contarNumeros[2] = VeinteTreinta;
+            contarNumeros[3] = TreintaCuarenta;
+            contarNumeros[4] = CuarentaCincuenta;
+            contarNumeros[5] = CincuentaSesenta;
+            contarNumeros[6] = SesentaSetenta;
+            contarNumeros[7] = SetentaOchenta;
+            contarNumeros[8] = OchentaNoventa;
+            contarNumeros[9] = NoventaCien;
         }
         public void totalNumIntervalos()
         {
@@ -323,7 +514,13 @@ namespace Cuadrados_Medios
         {
             genTabla();
             genTablaChiCuadrada();
+            genTablaChiCuadradaCarta1();
+            genTablaChiCuadradaColor2();
+            genTablaChiCuadradaCarta2();
             grafica();
+            graficaCarta1();
+            graficaColor2();
+            graficaCarta2();
             txtResultado.AutoSize = false;
             txtResultado.Size = new Size(305, 45);
         }
@@ -334,13 +531,22 @@ namespace Cuadrados_Medios
             lvResultados.FullRowSelect = true;
 
             lvResultados.Columns.Add("#", 70, HorizontalAlignment.Center);
-            lvResultados.Columns.Add("COLOR", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("COLOR 1", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("R", 70, HorizontalAlignment.Center);
 
-            lvResultados.Columns.Add("CARTA", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("CARTA 1", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("R", 70, HorizontalAlignment.Center);
+
+            lvResultados.Columns.Add("COLOR 2", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("R", 70, HorizontalAlignment.Center);
+            
+            lvResultados.Columns.Add("CARTA 2", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("R", 70, HorizontalAlignment.Center);
+
         }
         private void genTablaChiCuadrada()
         {
@@ -354,9 +560,49 @@ namespace Cuadrados_Medios
             lvComprobacion.Columns.Add("Resultado", 70, HorizontalAlignment.Center);
 
         }
+
+        private void genTablaChiCuadradaCarta1()
+        {
+            lvComprobacionCarta1.View = View.Details;
+            lvComprobacionCarta1.GridLines = true;
+            lvComprobacionCarta1.FullRowSelect = true;
+
+            lvComprobacionCarta1.Columns.Add("#", 70, HorizontalAlignment.Center);
+            lvComprobacionCarta1.Columns.Add("Oi", 70, HorizontalAlignment.Center);
+            lvComprobacionCarta1.Columns.Add("Ei", 70, HorizontalAlignment.Center);
+            lvComprobacionCarta1.Columns.Add("Resultado", 70, HorizontalAlignment.Center);
+
+        }
+
+        private void genTablaChiCuadradaColor2()
+        {
+            lvComprobacionColor2.View = View.Details;
+            lvComprobacionColor2.GridLines = true;
+            lvComprobacionColor2.FullRowSelect = true;
+
+            lvComprobacionColor2.Columns.Add("#", 70, HorizontalAlignment.Center);
+            lvComprobacionColor2.Columns.Add("Oi", 70, HorizontalAlignment.Center);
+            lvComprobacionColor2.Columns.Add("Ei", 70, HorizontalAlignment.Center);
+            lvComprobacionColor2.Columns.Add("Resultado", 70, HorizontalAlignment.Center);
+
+        }
+
+        private void genTablaChiCuadradaCarta2()
+        {
+            lvComprobacionCarta2.View = View.Details;
+            lvComprobacionCarta2.GridLines = true;
+            lvComprobacionCarta2.FullRowSelect = true;
+
+            lvComprobacionCarta2.Columns.Add("#", 70, HorizontalAlignment.Center);
+            lvComprobacionCarta2.Columns.Add("Oi", 70, HorizontalAlignment.Center);
+            lvComprobacionCarta2.Columns.Add("Ei", 70, HorizontalAlignment.Center);
+            lvComprobacionCarta2.Columns.Add("Resultado", 70, HorizontalAlignment.Center);
+
+        }
+
         private void grafica()
         {
-            chart1.Titles.Add("Gráfica de dispersión");
+            chart1.Titles.Add("Gráfica Color 1");
 
             chart1.ChartAreas[0].Axes[0].Title = "N";
             chart1.ChartAreas[0].Axes[1].Title = "R";
@@ -364,6 +610,39 @@ namespace Cuadrados_Medios
             chart1.Series[0].MarkerStyle = MarkerStyle.Circle;
             chart1.Series[0].Color = Color.Red;
             chart1.Series[0].LegendText = "Valor de R";
+        }
+        private void graficaCarta1()
+        {
+            chartCarta1.Titles.Add("Gráfica Carta 1");
+
+            chartCarta1.ChartAreas[0].Axes[0].Title = "N";
+            chartCarta1.ChartAreas[0].Axes[1].Title = "R";
+            chartCarta1.Series[0].ChartType = SeriesChartType.Point;
+            chartCarta1.Series[0].MarkerStyle = MarkerStyle.Circle;
+            chartCarta1.Series[0].Color = Color.Red;
+            chartCarta1.Series[0].LegendText = "Valor de R";
+        }
+        private void graficaColor2()
+        {
+            chartColor2.Titles.Add("Gráfica Color 2");
+
+            chartColor2.ChartAreas[0].Axes[0].Title = "N";
+            chartColor2.ChartAreas[0].Axes[1].Title = "R";
+            chartColor2.Series[0].ChartType = SeriesChartType.Point;
+            chartColor2.Series[0].MarkerStyle = MarkerStyle.Circle;
+            chartColor2.Series[0].Color = Color.Red;
+            chartColor2.Series[0].LegendText = "Valor de R";
+        }
+        private void graficaCarta2()
+        {
+            chartCarta2.Titles.Add("Gráfica Carta 2");
+
+            chartCarta2.ChartAreas[0].Axes[0].Title = "N";
+            chartCarta2.ChartAreas[0].Axes[1].Title = "R";
+            chartCarta2.Series[0].ChartType = SeriesChartType.Point;
+            chartCarta2.Series[0].MarkerStyle = MarkerStyle.Circle;
+            chartCarta2.Series[0].Color = Color.Red;
+            chartCarta2.Series[0].LegendText = "Valor de R";
         }
         private void limpGrafica()
         {
@@ -476,6 +755,20 @@ namespace Cuadrados_Medios
         {
             RestringirChars(e, txtSemilla);
         }
+        private void txtCartaSemilla_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            RestringirChars(e, txtCartaSemilla);
+        }
+
+        private void txtSemCol2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            RestringirChars(e, txtSemCol2);
+        }
+
+        private void txtSemCarta2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            RestringirChars(e, txtSemCarta2);
+        }
         private void RestringirChars(KeyPressEventArgs e, TextBox nombre) {
             nombre.MaxLength = 4;
 
@@ -502,38 +795,84 @@ namespace Cuadrados_Medios
 
             bool error1 = false;
 
-            if (txtNumTotal.Text == string.Empty && txtSemilla.Text == string.Empty)
+            if(txtNumTotal.Text == string.Empty)
             {
                 errorProvider1.SetError(txtNumTotal, "Ingrese al menos un numero");
-                errorProvider1.SetError(txtSemilla, "Ingrese al menos un numero");
-                return true;
+                error1 = true;
             }
-            else if(txtNumTotal.Text == string.Empty)
-            {
-                errorProvider1.SetError(txtNumTotal, "Ingrese al menos un numero");
-                return true;
-            }
-            else if (txtSemilla.Text == string.Empty)
+
+            if (txtSemilla.Text == string.Empty)
             {
                 errorProvider1.SetError(txtSemilla, "Ingrese al menos un numero");
-                return true;
+                error1 = true;
             }
+            else if ((txtSemilla.Text.Length < 4) || (txtSemilla.Text.Length > 4))
+            {
+                errorProvider1.SetError(txtSemilla, "Ingrese 4 numeros");
+                error1 = true;
+            }
+
+            if (txtCartaSemilla.Text == string.Empty)
+            {
+                errorProvider1.SetError(txtCartaSemilla, "Ingrese al menos un numero");
+                error1 = true;
+            }
+            else if ((txtCartaSemilla.Text.Length < 4) || (txtCartaSemilla.Text.Length > 4))
+            {
+                errorProvider1.SetError(txtCartaSemilla, "Ingrese 4 numeros");
+                error1 = true;
+            }
+
+            if (txtSemCol2.Text == string.Empty)
+            {
+                errorProvider1.SetError(txtSemCol2, "Ingrese al menos un numero");
+                error1 = true;
+            }
+            else if ((txtSemCol2.Text.Length < 4) || (txtSemCol2.Text.Length > 4))
+            {
+                errorProvider1.SetError(txtSemCol2, "Ingrese 4 numeros");
+                error1 = true;
+            }
+
+            if (txtSemCarta2.Text == string.Empty)
+            {
+                errorProvider1.SetError(txtSemCarta2, "Ingrese al menos un numero");
+                error1 = true;
+            }
+            else if ((txtSemCarta2.Text.Length < 4) || (txtSemCarta2.Text.Length > 4))
+            {
+                errorProvider1.SetError(txtSemCarta2, "Ingrese 4 numeros");
+                error1 = true;
+            }
+
+
+
+
+
             return error1;
         }
+
         private void NoError()
         {
-            if (!(txtNumTotal.Text == string.Empty) && !(txtSemilla.Text == string.Empty))
+           if (txtNumTotal.Text.Length == 4)
             {
                 errorProvider2.SetError(txtNumTotal, "Correcto");
-                errorProvider2.SetError(txtSemilla, "Correcto");
             }
-            else if (!(txtSemilla.Text == string.Empty))
+            if (txtSemilla.Text.Length == 4)
             {
                 errorProvider2.SetError(txtSemilla, "Correcto");
             }
-            else if (!(txtNumTotal.Text == string.Empty))
+            if (txtCartaSemilla.Text.Length == 4)
             {
-                errorProvider2.SetError(txtNumTotal, "Correcto");
+                errorProvider2.SetError(txtCartaSemilla, "Correcto");
+            }
+            if (txtSemCol2.Text.Length == 4)
+            {
+                errorProvider2.SetError(txtSemCol2, "Correcto");
+            }
+            if (txtSemCarta2.Text.Length == 4)
+            {
+                errorProvider2.SetError(txtSemCarta2, "Correcto");
             }
         }
         private void chart1_Click(object sender, EventArgs e)
@@ -565,7 +904,7 @@ namespace Cuadrados_Medios
         private void CartasColores()
         {
             total = int.Parse(txtNumTotal.Text);
-            colores = new float[total];
+            colores = new float[total*2];
             int j = 0;
 
             foreach (ListViewItem item in lvResultados.Items)
@@ -574,17 +913,17 @@ namespace Cuadrados_Medios
                 colores[j - 1] = float.Parse(item.SubItems[3].Text);
                 //colores[item] = float.Parse(item.SubItems[3].Text);
             }
-            for (int i = 0; i < total; i++)
+            foreach (ListViewItem item in lvResultados.Items)
             {
-                Console.WriteLine(colores[i]);
+                j++;
+                colores[j - 1] = float.Parse(item.SubItems[9].Text);
             }
-
         }
 
         private void CartasNumeros()
         {
             total = int.Parse(txtNumTotal.Text);
-            numCartas = new float[total];
+            numCartas = new float[total*2];
             int j = 0;
           //  List<string> lisNumCarta = new List<string>();
             
@@ -595,25 +934,48 @@ namespace Cuadrados_Medios
               //  lisNumCarta.Add(item.SubItems[6].Text);
                 //colores[item] = float.Parse(item.SubItems[3].Text);
             }
+            foreach(ListViewItem item in lvResultados.Items)
+            {
+                j++;
+                numCartas[j - 1] = float.Parse(item.SubItems[12].Text);
+            }
         }
 
-        private void btnIniciarJuego_Click(object sender, EventArgs e)
+      /*  private void btnIniciarJuego_Click(object sender, EventArgs e)
         {
             dgvMazo.Rows.Clear();
             dgvJugando.Rows.Clear();
             dgvJug1.Rows.Clear();
             dgvJug2.Rows.Clear();
-            //Tuple<string, string> tupla;
-            /*(string, string) t1;
-            t1.Item1(interColores, interCartas);*/
+            sinCartasJug1 = false;
+            sinCartasJug2 = false;
 
             CartasColores();
             CartasNumeros();
-            for (int i = 0; i < total; i++)
+            for (int i = 0; i < total*2; i++)
             {
                 dgvMazo.Rows.Add(i.ToString(), interCartas(numCartas[i]),interColores(colores[i]));
+                if(dgvMazo.Rows[i].Cells[2].Value == "Rojo")
+                {
+                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Red");
+                }
+
+                else if(dgvMazo.Rows[i].Cells[2].Value == "Azul")
+                {
+                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Blue");
+                }
+
+                else if (dgvMazo.Rows[i].Cells[2].Value == "Verde")
+                {
+                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Green");
+                }
+
+                else if (dgvMazo.Rows[i].Cells[2].Value == "Amarillo")
+                {
+                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Gold");
+                }
             }
-        }
+        }*/
 
         private void reparCartaInicial()
         {
@@ -632,8 +994,29 @@ namespace Cuadrados_Medios
             await Task.Delay(500);
 
             dgvJugando.Rows.Add(dgvMazo.Rows[i-2].Cells[1].Value, dgvMazo.Rows[i-2].Cells[2].Value);
+            colorCelda(dgvJugando, dgvJugando.Rows.Count-1);
             dgvMazo.Rows.Remove(dgvMazo.Rows[i - 2]);
 
+        }
+
+        private void colorCelda(DataGridView dgv, int i) 
+        {
+            if(dgv.Rows[i].Cells[1].Value == "Rojo")
+            {
+                dgv.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Red");
+            }
+            else if (dgv.Rows[i].Cells[1].Value == "Azul")
+            {
+                dgv.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Blue");
+            }
+            else if (dgv.Rows[i].Cells[1].Value == "Verde")
+            {
+                dgv.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Green");
+            }
+            else if (dgv.Rows[i].Cells[1].Value == "Amarillo")
+            {
+                dgv.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Gold");
+            }
         }
         private async void repCarJug()
         {
@@ -649,28 +1032,26 @@ namespace Cuadrados_Medios
                 }
                 else
                 {
-                    //if (i % 2 == 0)
                     if(i==0)
                     {
                         dgvJug1.Rows.Add(dgvMazo.Rows[i].Cells[1].Value, dgvMazo.Rows[i].Cells[2].Value);
-                        //dgvMazo.Rows.Remove(dgvMazo.Rows);
+                        colorCelda(dgvJug1, dgvJug1.Rows.Count-1);
                         dgvMazo.Rows.Remove(dgvMazo.CurrentRow);
-                        i=1;
 
+                        i = 1;
                     }
                     else 
                     {
                         dgvJug2.Rows.Add(dgvMazo.Rows[i-1].Cells[1].Value, dgvMazo.Rows[i-1].Cells[2].Value);
+                        colorCelda(dgvJug2, dgvJug2.Rows.Count-1);
                         dgvMazo.Rows.Remove(dgvMazo.CurrentRow);
-                        //dgvMazo.Rows.RemoveAt(i);
-                        i=0;
+
+                        i =0;
                     }
                     j++;
                 }
             }
             CartaInicial();
-            //dgvJug1.Rows[0].Cells[1].Value = dgvMazo.CurrentRow.Cells[1].Value;
-
         }
 
 
@@ -789,13 +1170,13 @@ namespace Cuadrados_Medios
 
         }
 
-        private void btnRepartir_Click(object sender, EventArgs e)
+ /*       private void btnRepartir_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 10; i++)
             {
                 eliminar();
             }
-        }
+        }*/
 
         private void eliminar()
         {
@@ -1497,10 +1878,10 @@ namespace Cuadrados_Medios
             }
         }
 
-        private void btnRepartir_Click_1(object sender, EventArgs e)
+       /* private void btnRepartir_Click_1(object sender, EventArgs e)
         {
             reparCartaInicial();
-        }
+        }*/
 
         private void turnoJugador1()
         {
@@ -1526,159 +1907,419 @@ namespace Cuadrados_Medios
         }
         private async void CompararColoresJug1()
         {
-            int i = 0;
-            string nomColor;
-            bool existe = false;
-            bool existeMasDos = false;
-            bool existeCancelar = false;
-
-            nomColor = obtenerColorJugando();
-            foreach (DataGridViewRow row in dgvJug1.Rows)
-            {
-                if ((dgvJug1.Rows[i].Cells[1].Value == nomColor) || (dgvJug1.Rows[i].Cells[0].Value == obtenerCartaJugando()))
-                {
-                    await Task.Delay(3000);
-                    dgvJugando.Rows.Add(dgvJug1.Rows[i].Cells[0].Value, dgvJug1.Rows[i].Cells[1].Value);
-                    dgvJug1.Rows.Remove(dgvJug1.Rows[i]);
-
-                    if (dgvJugando.Rows[dgvJugando.Rows.Count-1].Cells[0].Value == "Come +2")
-                    {
-                        existeMasDos = true;
-
-                        await Task.Delay(3000);
-                        dgvJug2.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count-2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count-2].Cells[2].Value);
-                        dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
-
-                        await Task.Delay(3000);
-                        dgvJug2.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count -2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
-                        dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
-
-                        await Task.Delay(1000);
-                        CompararColoresJug1();
-                    }
-                    else if(dgvJugando.Rows[dgvJugando.Rows.Count-1].Cells[0].Value == "Cancelar")
-                    {
-                        existeCancelar = true;
-                        await Task.Delay(1000);
-                        CompararColoresJug1();
-                    }
-
-
-                    dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
-
-                    existe = true;
-                    break;
-                }
-
-                else
-                {
-                    i++;
-                }
+            if (sinCartasJug1 && sinCartasJug2)
+            { 
+                MessageBox.Show("NO HAY MAS MOVIMIENTOS", "FIN DEL JUEGO");
+                dgvJug1.Rows.Clear();
+                dgvJug2.Rows.Clear();
+                dgvMazo.Rows.Clear();
+                dgvJugando.Rows.Clear();
+                return;
             }
-            if(existe == false)
+            else if (sinCartasJug1)
             {
-                await Task.Delay(1000);
-                dgvJug1.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count-2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count-2].Cells[2].Value);
-                dgvMazo.Rows.RemoveAt(dgvMazo.Rows.Count-2);
-            }
-            if ((dgvJug1.Rows.Count - 1 == -1))
-            {
-                
-                MessageBox.Show("GANA JUGADOR 1");
-            }
-            else if (dgvJug1.Rows.Count - 1 == 0)
-            {
-                MessageBox.Show("UNO", "JUGADOR 1");
-
-                if((existeMasDos == false) && (existeCancelar == false))
-                {
-                    CompararColoresJug2();
-                }
+                return;
             }
             else
             {
-                if ((existeMasDos == false) && (existeCancelar == false))
+                int i = 0;
+                string nomColor;
+                bool existe = false;
+                bool existeMasDos = false;
+                bool existeCancelar = false;
+                bool existeComodin = false;
+                bool existeComodin4 = false;
+
+
+                nomColor = obtenerColorJugando();
+                foreach (DataGridViewRow row in dgvJug1.Rows)
                 {
-                    CompararColoresJug2();
+                    if ((dgvJug1.Rows[i].Cells[1].Value == nomColor) || (dgvJug1.Rows[i].Cells[0].Value == obtenerCartaJugando()) || (dgvJug1.Rows[i].Cells[0].Value == "Comodin+4") || (dgvJug1.Rows[i].Cells[0].Value == "Comodin"))
+                    {
+                        await Task.Delay(3000);
+                        dgvJugando.Rows.Add(dgvJug1.Rows[i].Cells[0].Value, dgvJug1.Rows[i].Cells[1].Value);
+                        dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+                        colorCelda(dgvJugando, dgvJugando.Rows.Count - 1);
+                        dgvJug1.Rows.Remove(dgvJug1.Rows[i]);
+
+
+                        if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Come +2")
+                        {
+                            if (dgvMazo.Rows.Count - 2 == 1)
+                            {
+                                existeMasDos = true;
+                                await Task.Delay(3000);
+                                dgvJug2.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                                colorCelda(dgvJug2, dgvJug2.Rows.Count - 1);
+                                dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
+                                await Task.Delay(1000);
+                                CompararColoresJug1();
+
+                            }
+                            else if (dgvMazo.Rows.Count - 2 == 0)
+                            {
+                                CompararColoresJug1();
+                            }
+                            else
+                            {
+                                existeMasDos = true;
+
+                                await Task.Delay(3000);
+                                dgvJug2.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                                colorCelda(dgvJug2, dgvJug2.Rows.Count - 1);
+                                dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
+
+                                await Task.Delay(3000);
+                                dgvJug2.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                                colorCelda(dgvJug2, dgvJug2.Rows.Count - 1);
+                                dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
+
+                                await Task.Delay(1000);
+                                CompararColoresJug1();
+                            }
+                        }
+
+                        else if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Cancelar")
+                        {
+                            dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+                            existeCancelar = true;
+                            await Task.Delay(1000);
+                            CompararColoresJug1();
+                        }
+
+                        else if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Comodin")
+                        {
+                            existeComodin = true;
+                            //   existe = true;
+                            await Task.Delay(1000);
+                            dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+                            colorCelda(dgvJugando, dgvJugando.Rows.Count - 1);
+                        }
+
+                        else if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Comodin+4")
+                        {
+                            if (dgvMazo.Rows.Count - 2 == 0)
+                            {
+                                existeComodin4 = true;
+                                existe = true;
+
+                                dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug2, 4);
+                                await Task.Delay(1000);
+                                CompararColoresJug1();
+                            }
+                            else if (dgvMazo.Rows.Count - 2 == 1)
+                            {
+                                existeComodin4 = true;
+                                existe = true;
+
+                                dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug2, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug2, 4);
+                                await Task.Delay(1000);
+                                CompararColoresJug1();
+
+                            }
+                            else if (dgvMazo.Rows.Count - 2 == 2)
+                            {
+                                existeComodin4 = true;
+                                existe = true;
+
+                                dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug2, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug2, 4);
+                                await Task.Delay(1000);
+                                CompararColoresJug1();
+
+                            }
+                            else if (dgvMazo.Rows.Count - 2 == -1)
+                            {
+                                existeComodin4 = true;
+                                existe = true;
+                                await Task.Delay(1000);
+                                CompararColoresJug1();
+
+                            }
+                            else
+                            {
+                                existeComodin4 = true;
+                                existe = true;
+                                dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug2, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug2, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug2, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug2, 4);
+
+                                await Task.Delay(1000);
+                                CompararColoresJug1();
+                            }
+                        }
+
+                        dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+
+                        existe = true;
+                        break;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+                if (existe == false)
+                {
+                    if (dgvMazo.Rows.Count - 2 == -1)
+                    {
+                        sinCartasJug1 = true;
+                        CompararColoresJug2();
+                        
+                    }
+                    else
+                    {
+                        await Task.Delay(1000);
+                        dgvJug1.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                        colorCelda(dgvJug1, dgvJug1.Rows.Count - 1);
+                        dgvMazo.Rows.RemoveAt(dgvMazo.Rows.Count - 2);
+                    }
+                }
+                if ((dgvJug1.Rows.Count - 1 == -1))
+                {
+
+                    MessageBox.Show("GANA JUGADOR 1");
+                }
+                else if (dgvJug1.Rows.Count - 1 == 0)
+                {
+                    MessageBox.Show("UNO", "JUGADOR 1");
+
+                    if ((existeMasDos == false) && (existeCancelar == false) && (existeComodin4 == false))
+                    {
+                        CompararColoresJug2();
+                    }
+                }
+                else
+                {
+                    if ((existeMasDos == false) && (existeCancelar == false) && (existeComodin4 == false))
+                    {
+                        CompararColoresJug2();
+                    }
                 }
             }
         }
+        private void ComerCartas(DataGridView dgv, int numComer)
+        {
+            dgv.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+            colorCelda(dgv, dgv.Rows.Count - 1);
+            dgvMazo.Rows.RemoveAt(ultCartaMazo()-2);
+            
+        }
         private async void CompararColoresJug2()
         {
-            int i = 0;
-            string nomColor;
-            bool existe = false;
-            bool existeMasDos = false;
-            bool existeCancelar = false;
-
-            nomColor = obtenerColorJugando();
-
-            foreach (DataGridViewRow row in dgvJug2.Rows)
+            if (sinCartasJug2 && sinCartasJug1)
             {
-                if ((dgvJug2.Rows[i].Cells[1].Value == nomColor) || (dgvJug2.Rows[i].Cells[0].Value == obtenerCartaJugando()))
-                {
-
-                    await Task.Delay(3000);
-                    dgvJugando.Rows.Add(dgvJug2.Rows[i].Cells[0].Value, dgvJug2.Rows[i].Cells[1].Value);
-                    dgvJug2.Rows.Remove(dgvJug2.Rows[i]);
-
-                    if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Come +2")
-                    {
-                        existeMasDos = true;
-                        await Task.Delay(3000);
-                        dgvJug1.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
-                        dgvMazo.Rows.RemoveAt(ultCartaMazo()-2);
-
-                        await Task.Delay(3000);
-                        dgvJug1.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
-                        dgvMazo.Rows.RemoveAt(ultCartaMazo()-2);
-                        
-                        await Task.Delay(1000);
-                        
-                        CompararColoresJug2();
-
-                    }
-                    else if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Cancelar")
-                    {
-                        existeCancelar = true;
-                        CompararColoresJug2();
-                    }
-
-                    dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
-                    existe = true;
-                    break;
-                }
-                else
-                {
-                    i++;
-                }
+                MessageBox.Show("NO HAY MAS MOVIMIENTOS", "FIN DEL JUEGO");
+                dgvJug1.Rows.Clear();
+                dgvJug2.Rows.Clear();
+                dgvMazo.Rows.Clear();
+                dgvJugando.Rows.Clear();
+                return;
             }
-
-            if (existe == false)
+            else if (sinCartasJug2)
             {
-                await Task.Delay(1000);
-
-                dgvJug2.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count-2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count-2].Cells[2].Value);
-                dgvMazo.Rows.RemoveAt(dgvMazo.Rows.Count-2);
-            }
-
-            if (dgvJug2.Rows.Count - 1 == -1)
-            {
-                MessageBox.Show("GANA JUGADOR 2");
-            }
-            else if(dgvJug2.Rows.Count -1 == 0)
-            {
-                MessageBox.Show("UNO", "JUGADOR 2");
-                if ((existeMasDos == false) && (existeCancelar == false))
-                {
-                    CompararColoresJug1();
-                }
+                return;
             }
             else
             {
-                if ((existeMasDos == false) && (existeCancelar == false))
+                int i = 0;
+                string nomColor;
+                bool existe = false;
+                bool existeMasDos = false;
+                bool existeCancelar = false;
+                bool existeComodin = false;
+                bool existeComodin4 = false;
+
+                //   bool existeComodin4 = false;
+
+                nomColor = obtenerColorJugando();
+
+                foreach (DataGridViewRow row in dgvJug2.Rows)
                 {
-                    CompararColoresJug1();
+                    if ((dgvJug2.Rows[i].Cells[1].Value == nomColor) || (dgvJug2.Rows[i].Cells[0].Value == obtenerCartaJugando()) || (dgvJug2.Rows[i].Cells[0].Value == "Comodin+4") || (dgvJug2.Rows[i].Cells[0].Value == "Comodin"))
+                    {
+
+                        await Task.Delay(3000);
+                        dgvJugando.Rows.Add(dgvJug2.Rows[i].Cells[0].Value, dgvJug2.Rows[i].Cells[1].Value);
+                        dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+                        colorCelda(dgvJugando, dgvJugando.Rows.Count - 1);
+                        dgvJug2.Rows.Remove(dgvJug2.Rows[i]);
+
+                        if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Come +2")
+                        {
+                            if (dgvMazo.Rows.Count - 2 == 1)
+                            {
+                                existeMasDos = true;
+                                await Task.Delay(3000);
+                                dgvJug1.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                                colorCelda(dgvJug1, dgvJug1.Rows.Count - 1);
+                                dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
+                                await Task.Delay(1000);
+                                CompararColoresJug2();
+                            }
+                            else if (dgvMazo.Rows.Count - 2 == 0)
+                            {
+                                existeMasDos = true;
+                                await Task.Delay(1000);
+                                CompararColoresJug2();
+                            }
+                            else
+                            {
+                                existeMasDos = true;
+                                await Task.Delay(3000);
+                                dgvJug1.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                                colorCelda(dgvJug1, dgvJug1.Rows.Count - 1);
+                                dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
+
+                                await Task.Delay(3000);
+                                dgvJug1.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                                colorCelda(dgvJug1, dgvJug1.Rows.Count - 1);
+                                dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
+
+                                await Task.Delay(1000);
+
+                                CompararColoresJug2();
+                            }
+                        }
+
+                        else if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Cancelar")
+                        {
+                            existeCancelar = true;
+                            CompararColoresJug2();
+                            dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+                        }
+
+                        else if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Comodin+4")
+                        {
+                            if (dgvMazo.Rows.Count - 2 == 0)
+                            {
+                                existe = true;
+                                existeComodin4 = true;
+                                dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug1, 4);
+                                CompararColoresJug2();
+                            }
+                            else if (dgvMazo.Rows.Count - 2 == 1)
+                            {
+                                existe = true;
+                                existeComodin4 = true;
+
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug1, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug1, 4);
+
+                                await Task.Delay(1000);
+                                CompararColoresJug2();
+                            }
+                            else if (dgvMazo.Rows.Count - 2 == 2)
+                            {
+                                existe = true;
+                                existeComodin4 = true;
+
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug1, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug1, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug1, 4);
+
+                                await Task.Delay(1000);
+                                CompararColoresJug2();
+                            }
+                            else if (dgvMazo.Rows.Count - 2 == 3)
+                            {
+                                await Task.Delay(1000);
+                                CompararColoresJug2();
+                            }
+                            else
+                            {
+                                existe = true;
+                                existeComodin4 = true;
+                                dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug1, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug1, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug1, 4);
+                                await Task.Delay(1000);
+                                ComerCartas(dgvJug1, 4);
+
+                                await Task.Delay(1000);
+                                CompararColoresJug2();
+                            }
+                        }
+
+
+
+                        dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
+
+
+                        existe = true;
+                        break;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+                if (existe == false)
+                {
+                    await Task.Delay(1000);
+
+                    if (dgvMazo.Rows.Count - 2 == -1)
+                    {
+                        sinCartasJug2 = true;
+                        CompararColoresJug1();
+                    }
+                    else
+                    {
+                        dgvJug2.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                        colorCelda(dgvJug2, dgvJug2.Rows.Count - 1);
+                        dgvMazo.Rows.RemoveAt(dgvMazo.Rows.Count - 2);
+                    }
+                }
+
+                if (dgvJug2.Rows.Count - 1 == -1)
+                {
+                    MessageBox.Show("GANA JUGADOR 2");
+                }
+                else if (dgvJug2.Rows.Count - 1 == 0)
+                {
+                    MessageBox.Show("UNO", "JUGADOR 2");
+
+                    if ((existeMasDos == false) && (existeCancelar == false) && (existeComodin4 == false))
+                    {
+                        CompararColoresJug1();
+                    }
+                }
+                else
+                {
+                    if ((existeMasDos == false) && (existeCancelar == false) && (existeComodin4 == false))
+                    {
+                        CompararColoresJug1();
+                    }
                 }
             }
         }
@@ -1728,15 +2369,77 @@ namespace Cuadrados_Medios
             return dgvJugando.Rows[i - 1].Cells[0].Value.ToString(); ;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+    /*    private void button1_Click(object sender, EventArgs e)
         {
             turnoJugador1();
 
+        }*/
+        private void label13_Click(object sender, EventArgs e)
+        {
+
         }
 
-        private void btnJug2_Click(object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            turnoJugador2();
+
+        }
+
+        private void btnIniciarJuego_Click_1(object sender, EventArgs e)
+        {
+            dgvMazo.Rows.Clear();
+            dgvJugando.Rows.Clear();
+            dgvJug1.Rows.Clear();
+            dgvJug2.Rows.Clear();
+            sinCartasJug1 = false;
+            sinCartasJug2 = false;
+
+            //Tuple<string, string> tupla;
+            /*(string, string) t1;
+            t1.Item1(interColores, interCartas);*/
+
+            CartasColores();
+            CartasNumeros();
+            for (int i = 0; i < total * 2; i++)
+            {
+                dgvMazo.Rows.Add(i.ToString(), interCartas(numCartas[i]), interColores(colores[i]));
+                if (dgvMazo.Rows[i].Cells[2].Value == "Rojo")
+                {
+                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Red");
+                }
+
+                else if (dgvMazo.Rows[i].Cells[2].Value == "Azul")
+                {
+                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Blue");
+                }
+
+                else if (dgvMazo.Rows[i].Cells[2].Value == "Verde")
+                {
+                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Green");
+                }
+
+                else if (dgvMazo.Rows[i].Cells[2].Value == "Amarillo")
+                {
+                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Gold");
+                }
+            }
+        }
+
+        private void btnEliDup_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                eliminar();
+            }
+        }
+
+        private void btnRepartir_Click(object sender, EventArgs e)
+        {
+            reparCartaInicial();
+        }
+
+        private void btnJug1_Click(object sender, EventArgs e)
+        {
+            turnoJugador1();
         }
     }
 }
