@@ -51,7 +51,6 @@ namespace Cuadrados_Medios
             lvComprobacion.Items.Clear();
             lvComprobacionColor2.Items.Clear();
             lvComprobacionCarta2.Items.Clear();
-            txtResultado.Text = "";
             txtValSuma.Text = "";
             txtValCarta1.Text = "";
             txtColor2.Text = "";
@@ -276,6 +275,7 @@ namespace Cuadrados_Medios
         }
         public void ChiCuadCarta(ListView lv, string[] Carta, TextBox txt, List<float> NumCarColor)
         {
+
             lv.Items.Clear();
             
 
@@ -316,14 +316,14 @@ namespace Cuadrados_Medios
             string ValordeSuma = suma.ToString();
             txt.Text = string.Format(ValordeSuma);
 
-        /*    if (suma < 16.91)
+            if (suma < 16.91)
             {
-                txtResultado.Text = string.Format("El valor de la suma es menor que (Xa,9). El resultado es CORRECTO");
+                errorProvider2.SetError(txt,"La suma es menor que 16.94. CORRECTO");
             }
             else
             {
-                txtResultado.Text = "El valor de la suma es mayor que (Xa,9). El resultado es INCORRECTO";
-            }*/
+                errorProvider1.SetError(txt, "La suma es mayor que 16.94. INCORRECTO");
+            }
         }
 
         public void ChiCuad()
@@ -369,11 +369,11 @@ namespace Cuadrados_Medios
 
             if (suma < 16.91)
             {
-                txtResultado.Text = string.Format("El valor de la suma es menor que (Xa,9). El resultado es CORRECTO");
+                errorProvider2.SetError(txtValSuma, "La suma es menor que 16.94. CORRECTO");
             }
             else
             {
-                txtResultado.Text = "El valor de la suma es mayor que (Xa,9). El resultado es INCORRECTO";
+                errorProvider1.SetError(txtValSuma, "La suma es mayor que 16.94. INCORRECTO");
             }
         }
         public void totalNumIntervalosFunc(List<float> GuardarNumeros, int[] contarNumeros)
@@ -521,8 +521,6 @@ namespace Cuadrados_Medios
             graficaCarta1();
             graficaColor2();
             graficaCarta2();
-            txtResultado.AutoSize = false;
-            txtResultado.Size = new Size(305, 45);
         }
         private void genTabla()
         {
@@ -531,21 +529,21 @@ namespace Cuadrados_Medios
             lvResultados.FullRowSelect = true;
 
             lvResultados.Columns.Add("#", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("Y", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("COLOR 1", 70, HorizontalAlignment.Center);
-            lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
-            lvResultados.Columns.Add("R", 70, HorizontalAlignment.Center);
 
+            lvResultados.Columns.Add("Y", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("CARTA 1", 70, HorizontalAlignment.Center);
-            lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
-            lvResultados.Columns.Add("R", 70, HorizontalAlignment.Center);
 
+            lvResultados.Columns.Add("Y", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("COLOR 2", 70, HorizontalAlignment.Center);
-            lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
-            lvResultados.Columns.Add("R", 70, HorizontalAlignment.Center);
             
-            lvResultados.Columns.Add("CARTA 2", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("Y", 70, HorizontalAlignment.Center);
             lvResultados.Columns.Add("X", 70, HorizontalAlignment.Center);
-            lvResultados.Columns.Add("R", 70, HorizontalAlignment.Center);
+            lvResultados.Columns.Add("CARTA 2", 70, HorizontalAlignment.Center);
 
         }
         private void genTablaChiCuadrada()
@@ -650,6 +648,18 @@ namespace Cuadrados_Medios
             {
                 series.Points.Clear();
             }
+            foreach (var series in chartCarta1.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chartColor2.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chartCarta2.Series)
+            {
+                series.Points.Clear();
+            }
         }
         private void lvResultados_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -702,7 +712,7 @@ namespace Cuadrados_Medios
                             await tw.WriteLineAsync(item2.SubItems[0].Text + "\t" + item2.SubItems[1].Text + "\t" + item2.SubItems[2].Text + "\t" +item2.SubItems[3].Text);
                         }
 
-                        tw.WriteLine(string.Format("\nValor de la suma: " + txtValSuma.Text+"\t\tValor de Xa,9: "+txtValXa.Text+"\n"+txtResultado.Text));
+                        tw.WriteLine(string.Format("\nValor de la suma: " + txtValSuma.Text+"\t\tValor de Xa,9: "+txtValXa.Text+"\n"));
 
                         MessageBox.Show("¡¡Archivo de texto guardado correctamente!!");
                     }
@@ -941,42 +951,6 @@ namespace Cuadrados_Medios
             }
         }
 
-      /*  private void btnIniciarJuego_Click(object sender, EventArgs e)
-        {
-            dgvMazo.Rows.Clear();
-            dgvJugando.Rows.Clear();
-            dgvJug1.Rows.Clear();
-            dgvJug2.Rows.Clear();
-            sinCartasJug1 = false;
-            sinCartasJug2 = false;
-
-            CartasColores();
-            CartasNumeros();
-            for (int i = 0; i < total*2; i++)
-            {
-                dgvMazo.Rows.Add(i.ToString(), interCartas(numCartas[i]),interColores(colores[i]));
-                if(dgvMazo.Rows[i].Cells[2].Value == "Rojo")
-                {
-                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Red");
-                }
-
-                else if(dgvMazo.Rows[i].Cells[2].Value == "Azul")
-                {
-                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Blue");
-                }
-
-                else if (dgvMazo.Rows[i].Cells[2].Value == "Verde")
-                {
-                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Green");
-                }
-
-                else if (dgvMazo.Rows[i].Cells[2].Value == "Amarillo")
-                {
-                    dgvMazo.Rows[i].DefaultCellStyle.BackColor = Color.FromName("Gold");
-                }
-            }
-        }*/
-
         private void reparCartaInicial()
         {
             dgvJug1.Rows.Clear();
@@ -1169,14 +1143,6 @@ namespace Cuadrados_Medios
             return "Error";
 
         }
-
- /*       private void btnRepartir_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                eliminar();
-            }
-        }*/
 
         private void eliminar()
         {
@@ -1878,11 +1844,6 @@ namespace Cuadrados_Medios
             }
         }
 
-       /* private void btnRepartir_Click_1(object sender, EventArgs e)
-        {
-            reparCartaInicial();
-        }*/
-
         private void turnoJugador1()
         {
             CompararColoresJug1();
@@ -1929,6 +1890,7 @@ namespace Cuadrados_Medios
                 bool existeCancelar = false;
                 bool existeComodin = false;
                 bool existeComodin4 = false;
+                bool UnoConComedos = false;
 
 
                 nomColor = obtenerColorJugando();
@@ -1945,18 +1907,41 @@ namespace Cuadrados_Medios
 
                         if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Come +2")
                         {
-                            if (dgvMazo.Rows.Count - 2 == 1)
+                            if (dgvMazo.Rows.Count - 2 == 0)
                             {
-                                existeMasDos = true;
-                                await Task.Delay(3000);
-                                dgvJug2.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
-                                colorCelda(dgvJug2, dgvJug2.Rows.Count - 1);
-                                dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
-                                await Task.Delay(1000);
-                                CompararColoresJug1();
+                                if (dgvJug1.Rows.Count - 1 == -1)
+                                {
+                                    MessageBox.Show("GANA JUGADOR 1");
+                                    dgvJug1.Rows.Clear();
+                                    dgvJug2.Rows.Clear();
+                                    dgvMazo.Rows.Clear();
+                                    dgvJugando.Rows.Clear();
+                                    return;
+                                }
+                                else if (dgvJug1.Rows.Count - 1 == 0)
+                                {
+                                    MessageBox.Show("UNO", "JUGADOR 1");
+                                    existeMasDos = true;
+                                    await Task.Delay(3000);
+                                    dgvJug2.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                                    colorCelda(dgvJug2, dgvJug2.Rows.Count - 1);
+                                    dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
+                                    await Task.Delay(1000);
+                                    CompararColoresJug1();
+                                }
+                                else
+                                {
+                                    existeMasDos = true;
+                                    await Task.Delay(3000);
+                                    dgvJug2.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                                    colorCelda(dgvJug2, dgvJug2.Rows.Count - 1);
+                                    dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
+                                    await Task.Delay(1000);
+                                    CompararColoresJug1();
+                                }
 
                             }
-                            else if (dgvMazo.Rows.Count - 2 == 0)
+                            else if (dgvMazo.Rows.Count - 2 == -1)
                             {
                                 CompararColoresJug1();
                             }
@@ -2091,12 +2076,13 @@ namespace Cuadrados_Medios
                         dgvMazo.Rows.RemoveAt(dgvMazo.Rows.Count - 2);
                     }
                 }
-                if ((dgvJug1.Rows.Count - 1 == -1))
+                if ((dgvJug1.Rows.Count - 1 == -1) && UnoConComedos == false)
                 {
 
                     MessageBox.Show("GANA JUGADOR 1");
+                    return;
                 }
-                else if (dgvJug1.Rows.Count - 1 == 0)
+                else if (dgvJug1.Rows.Count - 1 == 0 && UnoConComedos == false)
                 {
                     MessageBox.Show("UNO", "JUGADOR 1");
 
@@ -2145,7 +2131,7 @@ namespace Cuadrados_Medios
                 bool existeCancelar = false;
                 bool existeComodin = false;
                 bool existeComodin4 = false;
-
+                bool UnoConComedos = false;
                 //   bool existeComodin4 = false;
 
                 nomColor = obtenerColorJugando();
@@ -2163,17 +2149,38 @@ namespace Cuadrados_Medios
 
                         if (dgvJugando.Rows[dgvJugando.Rows.Count - 1].Cells[0].Value == "Come +2")
                         {
-                            if (dgvMazo.Rows.Count - 2 == 1)
+                            if (dgvMazo.Rows.Count - 2 == 0)
                             {
-                                existeMasDos = true;
-                                await Task.Delay(3000);
-                                dgvJug1.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
-                                colorCelda(dgvJug1, dgvJug1.Rows.Count - 1);
-                                dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
-                                await Task.Delay(1000);
-                                CompararColoresJug2();
+                                if (dgvJug2.Rows.Count - 1 == 0)
+                                {
+                                    UnoConComedos = true;
+                                    MessageBox.Show("UNO", "JUGADOR 2");
+                                    existeMasDos = true;
+                                    await Task.Delay(3000);
+                                    dgvJug1.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                                    colorCelda(dgvJug1, dgvJug1.Rows.Count - 1);
+                                    dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
+                                    await Task.Delay(1000);
+                                    CompararColoresJug2();
+                                }
+                                else if (dgvJug2.Rows.Count - 1 == -1)
+                                {
+                                    MessageBox.Show("GANA JUGADOR 2");
+                                    return;
+                                }
+                                else
+                                {
+                                    UnoConComedos = true;
+                                    existeMasDos = true;
+                                    await Task.Delay(3000);
+                                    dgvJug1.Rows.Add(dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[1].Value, dgvMazo.Rows[dgvMazo.Rows.Count - 2].Cells[2].Value);
+                                    colorCelda(dgvJug1, dgvJug1.Rows.Count - 1);
+                                    dgvMazo.Rows.RemoveAt(ultCartaMazo() - 2);
+                                    await Task.Delay(1000);
+                                    CompararColoresJug2();
+                                }
                             }
-                            else if (dgvMazo.Rows.Count - 2 == 0)
+                            else if (dgvMazo.Rows.Count - 2 == -1)
                             {
                                 existeMasDos = true;
                                 await Task.Delay(1000);
@@ -2211,7 +2218,6 @@ namespace Cuadrados_Medios
                             {
                                 existe = true;
                                 existeComodin4 = true;
-                                dgvJugando.FirstDisplayedScrollingRowIndex = UltCartaJugada();
 
                                 await Task.Delay(1000);
                                 ComerCartas(dgvJug1, 4);
@@ -2245,7 +2251,7 @@ namespace Cuadrados_Medios
                                 await Task.Delay(1000);
                                 CompararColoresJug2();
                             }
-                            else if (dgvMazo.Rows.Count - 2 == 3)
+                            else if (dgvMazo.Rows.Count - 2 == -1)
                             {
                                 await Task.Delay(1000);
                                 CompararColoresJug2();
@@ -2301,11 +2307,12 @@ namespace Cuadrados_Medios
                     }
                 }
 
-                if (dgvJug2.Rows.Count - 1 == -1)
+                if (dgvJug2.Rows.Count - 1 == -1 && UnoConComedos == false)
                 {
                     MessageBox.Show("GANA JUGADOR 2");
+                    return;
                 }
-                else if (dgvJug2.Rows.Count - 1 == 0)
+                else if (dgvJug2.Rows.Count - 1 == 0 && UnoConComedos == false)
                 {
                     MessageBox.Show("UNO", "JUGADOR 2");
 
